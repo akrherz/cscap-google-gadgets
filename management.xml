@@ -58,8 +58,8 @@
 <div id="years">
     <input type="radio" value="2011" id="y2011" name="year"/><label for="y2011">2011 Crop</label>
     <input type="radio" value="2012" id="y2012" name="year"/><label for="y2012">2012 Crop</label>
-    <input type="radio" value="2013" id="y2013" name="year" checked="checked"/><label for="y2013">2013 Crop</label>
-    <input type="radio" value="2014" id="y2014" name="year"/><label for="y2014">2014 Crop</label>
+    <input type="radio" value="2013" id="y2013" name="year"/><label for="y2013">2013 Crop</label>
+    <input type="radio" value="2014" id="y2014" name="year" checked="checked"/><label for="y2014">2014 Crop</label>
     <input type="radio" value="2015" id="y2015" name="year"/><label for="y2015">2015 Crop</label>
 </div>
 
