@@ -1611,6 +1611,7 @@ document.getElementById("soiladmend_neutral_index").value = entry.gsx$neutralind
     showManureStabilizer(entry.gsx$stabilizerused.$t);
     document.getElementById("manure_stabilizer_name").value = entry.gsx$stabilizername.$t;
     document.getElementById("manure_stabilizer").value = entry.gsx$stabilizer.$t;
+    document.getElementById("product_rate").value = entry.gsx$productrate.$t;
     resetNitrogenRate();  
     var pr = parseFloat(entry.gsx$productrate.$t);
     if (pr > 0){
@@ -1618,7 +1619,7 @@ document.getElementById("soiladmend_neutral_index").value = entry.gsx$neutralind
         var elem = FERTELEM[i];
         document.getElementById(elem + "_rate").value = entry['gsx$'+elem].$t;
       }
-      document.getElementById("product_rate").value = parseFloat(entry.gsx$productrate.$t) / 1.12;
+      document.getElementById("product_rate").value = pr / 1.12;
     }
     if (pr == -1){
       for (var i=0; i < FERTELEM.length; i++){
