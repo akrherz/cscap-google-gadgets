@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="CSCAP GHG Entry Form" >
+  <OAuth>
+    <Service name="google">
+      <Access url="https://www.google.com/accounts/OAuthGetAccessToken" method="GET" /> 
+      <Request url="https://www.google.com/accounts/OAuthGetRequestToken?scope=https://spreadsheets.google.com/feeds/" method="GET" /> 
+      <Authorization url="https://www.google.com/accounts/OAuthAuthorizeToken" /> 
+    </Service>
+  </OAuth>
+    <Require feature="auth-refresh"/>
+  </ModulePrefs>
+  <Content type="html">
+    <![CDATA[
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+<style type="text/css">
+.ui-widget{
+ font-size: 1em !important;
+ font: inherit;
+}
+.ui-state-active{
+  background: #d44716 !important; # blue is 1882f3
+}
+.optoptions{
+  font-style: italic;
+}
+.optheader{
+  font-weight: bold;
+  color: #d44716;
+}
+textarea {
+  border:1px solid #999999;
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+tabs-2
+</style>
+<script src="https://www.google.com/jsapi?key=ABQIAAAArXt77YptylBNPFEy0AgJxBQV4szfgV8zGZZkur1B-B3W8b5AThTSlomZliOt8JQHJGH1m63sgDu1rg" type="text/javascript"></script>
+
+<!-- Initially displayed and then hidden once we are running -->
+<div id="loading">
+ <p><strong>GHG Entry form is loading...</strong>
+</div>
+
+<!-- Displayed if this gadget needs oauth2 approval -->
+<div id="approval" style="display: none">
+  This application is a "Google Gadget" written by Daryl Herzmann and needs authorization by you to view and save data to a dedicated spreadsheet for this
+dataset.
+<a id="personalize"
+        onclick="javascript:showOneSection('waiting'); return true"
+        target="approve">Click to authorize this gadget</a>
+<p>The authorization step should open a new browser window and request permission
+to access spreadsheets on your behalf.
+</div>
+
+<!-- Displayed once the approval process begins... -->
+<div id="waiting" style="display: none">
+      Please click
+      <a href="#" onclick="javascript:bootstrap()">I've approved access</a>
+      once you've approved access to your data.
+</div>
+
+<!-- Our main 'window' -->
+<div id="main" style="display: none">
+<form name="ghg">
+<p><strong>Select Data Collection Site:</strong>
+  <select name="site" id="siteSelector" onChange="setSite(this.options[this.selectedIndex].value);">
+  <option value="invalid">Select Site from List...</option>
+</select>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Raw Data</a></li>
+    <li><a href="#tabs-2">Review</a></li>
+  </ul>
+
+<div id="tabs-1">
+<p><strong>Paste in your data here:</strong><br />
+<textarea id="rawdata" cols="60" rows="30" wrap="hard"></textarea>
+
+<p><input id="process" style="display: none;" value="Process!" type="button" onClick="javascript: processRawData();" />
+<input value="Load Test Data" type="button" onClick="javascript: loadDummyData();" />
+
+</div><!-- End tabs-1 -->
+<div id="tabs-2">
+
+<p>This application has attempted to assign location IDs to your provided observations. Please check that the location labels are correct and then click the "Save Data!" option at the bottom.
+
+<table id="data_review" cellpadding='2' cellspacing='0' border='1'>
+<thead><tr><th>Location</th>
+ <td>Count</td>
+ <td>N<sub>2</sub>O Flux</td>
+ <td>CO<sub>2</sub> Flux</td>
+ <td>Dew Point</td>
+ <td>Soil Temp [C]</td>
+ <td>Soil Moisture</td>
+</tr></thead>
+</table>
+
+<p><input type="button" value="Save Data!" onClick="javascript: saveData();" />
+
+</div><!-- End tabs-2 -->
+</div>
+</form>
+</div>
+
+<script type="text/javascript">
+
+/* sheet feed of the site metadata */
+var metadataSheetFeed;
+/* google service */
+var service;
+var meta_key = '0AqZGw0coobCxdHUydFhtS2gwQndzTXRGcXB3SzVaZkE';
+var sites = [];
+var sitekeys = [];
+var locations = [];
+
+function pad(n) { return ("0" + n).slice(-2); }
+
+// http://trentrichardson.com/2010/04/06/compute-linear-regressions-in-javascript
+function linearRegression(y,x){
+        var lr = {};
+        var n = y.length;
+        var sum_x = 0.0;
+        var sum_x2 = 0.0;
+        var sum_y = 0.0;
+        var sum_y2 = 0.0;
+        var sum_xy = 0.0;
+        var sum_xx = 0.0;
+        var sum_yy = 0.0;
+
+        for (var i = 0; i < y.length; i++) {
+
+            sum_x += (x[i]*1.0);
+            sum_x2 += Math.pow(x[i],2);
+            sum_y += (y[i]*1.0);
+            sum_y2 += Math.pow(y[i],2);
+            sum_xy += (x[i]*y[i]);
+            sum_xx += (x[i]*x[i]);
+            sum_yy += (y[i]*y[i]);
+        } 
+
+        lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+        lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+        lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+        lr['fn'] = function (x) { return this.slope * x + this.intercept; }; 
+        return lr;
+}
+
+  var DUMMY_DATA2 = '"Time"    "B: NITROUSOXIDE [ppm]"    "C: CARBONDIOXIDE [ppm]"    "W: Water vapour [Tdew C]"\n'
++'11/10/11 5:08:31    653723e-006    698453e-003   172413e-005   Start\n'
++'11/10/11 5:10:31    753823e-006    897453e-003   172413e-005\n'
++'11/10/11 15:32:31    854123e-006    1096453e-003  172413e-005\n'
++'11/10/11 15:34:31    954723e-006    1295453e-003   172413e-005\n'
++'11/10/11 15:36:31    1054923e-006    1494453e-003   172413e-005   Stop\n\n'
++'11/10/11 15:40:31    653723e-006    698453e-003   172413e-005  Start,Stop\n'
++'11/10/11 15:44:31    653723e-006    698453e-003   172413e-005   Start\n'
++'11/10/11 15:46:31    653723e-006    698453e-003   172413e-005\n'
++'11/10/11 15:48:31    653723e-006    698453e-003   172413e-005\n\n'
++'11/10/11 15:50:31    653723e-006    698453e-003   172413e-005    Stop\n';
+  var DUMMY_DATA = '"Time"    "B: NITROUSOXIDE [ppm]"    "C: CARBONDIOXIDE [ppm]"    "W: Water vapour [Tdew C]"\n'
++'04/07/11 08:20:33 -160309e-005 481747e-006 355342e-003 Start\n'
++'04/07/11 08:22:31 -166665e-005 497903e-006 366262e-003\n'
++'04/07/11 08:24:31 -166524e-005 478883e-006 378045e-003\n'
++'04/07/11 08:26:31 -162004e-005 477610e-006 389687e-003\n'
++'04/07/11 08:28:31 -173586e-005 474953e-006 401673e-003\n'
++'04/07/11 08:30:31 -175422e-005 493060e-006 414604e-003\n'
++'04/07/11 08:32:31 -167936e-005 475478e-006 427694e-003 Stop,212N\n'
++'04/07/11 08:32:31 -167936e-005 475478e-006 427694e-003 Start,Stop,ambient\n'
++'04/07/11 08:34:33 -123346e-005 436411e-006 357320e-003 Start,212S\n'
++'04/07/11 08:36:31 -128219e-005 439095e-006 367967e-003\n'
++'04/07/11 08:38:31 -142513e-005 458858e-006 379734e-003\n'
++'04/07/11 08:40:31 -137132e-005 467488e-006 390337e-003\n'
++'04/07/11 08:42:31 -142795e-005 457289e-006 401039e-003\n'
++'04/07/11 08:44:31 -160168e-005 456535e-006 411286e-003 Stop\n';
+
+
+function Location(key, chambervol, chambersa){
+  this.key = key;
+  this.chambervol = chambervol;
+  this.chambersa = chambersa;
+}
+
+function Observation(time, n2o, co2, dew, label){
+    this.time = time;
+    this.n2o = n2o;
+    this.co2 = co2;
+    this.dew = dew;
+    this.label = label; 
+    this.siteid = label.replace(/start/i ,'').replace(/stop/i,'').replace(/,/g,'');
+}
+
+function ObSeries(location){
+    this.obs = [];
+    this.location = location;
+    this.n2o_slope = 0;
+    this.n2o_r2 = 0;
+    this.co2_slope = 0;
+    this.co2_r2 = 0;
+    this.calcFluxes = function(i){
+        //console.log("Calculating fluxes for:"+ i);
+        document.getElementById("N2O_"+i).innerHTML = this.calcN2O();
+        document.getElementById("CO2_"+i).innerHTML = this.calcCO2();
+    };
+    this.calcN2O = function(){
+        if (this.obs.length < 2){ return 'M'; } 
+        var x = [];
+        var y = [];
+        var xbase = this.obs[0].time.getTime() / 1000.0 / 3600.0;
+        
+        for (i=0;i<this.obs.length;i++){
+           y.push( (this.obs[i].n2o * 28.0 * 1.0) / (0.0820575 * 293.0) * this.location.chambervol / this.location.chambersa );
+           x.push( this.obs[i].time.getTime() / 1000.0 / 3600.0 - xbase );
+        }
+        lr = linearRegression(y,x);
+        // Convert from /hr to kg ha-1 d-1
+        this.n2o_slope = lr['slope'] * (10000.0/1000000.0) * 24.0;
+        this.n2o_r2 = lr['r2'];
+        //console.log(lr['r2']);
+        return "Flux: "+ this.n2o_slope.toFixed(3) +" kg ha<sup>-1</sup> d<sup>-1</sup> R2: "+ lr['r2'].toFixed(3);
+    };
+    this.getLabel = function(){
+        for (i=0;i<this.obs.length;i++){
+            if (this.obs[i].siteid != ""){
+                return this.obs[i].siteid;
+            }
+        }
+        return 'No Label';
+    };
+    this.calcCO2 = function(){
+        if (this.obs.length < 2){ return 'M'; }
+        x = [];
+        y = [];
+        var xbase = this.obs[0].time.getTime() / 1000.0 / 3600.0; 
+        for (i=0;i<this.obs.length;i++){
+           y.push( (this.obs[i].co2 * 12.0 * 1.0) / (0.0820575 * 293.0) * this.location.chambervol / this.location.chambersa );
+           x.push( this.obs[i].time.getTime() / 1000.0 / 3600.0 - xbase);
+        }
+        lr = linearRegression(y,x);
+        // Convert to kg ha-1 d-1
+        this.co2_slope = lr['slope']  * (10000.0/1000000.0) * 24.0;
+        this.co2_r2 = lr['r2'];
+        //console.log(lr['r2']);
+        return "Flux: "+ this.co2_slope.toFixed(3) +" kg ha<sup>-1</sup> d<sup>-1</sup> <br />R2: "+ lr['r2'].toFixed(3);
+    };
+    this.calcDEW = function(){
+        if (this.obs.length < 2){ return 'M'; }
+        return this.obs[0].dew;
+    };
+    this.addOb = function(ob){
+        /* If we have no obs already, add automatically */
+        if (this.obs.length == 0){ 
+            //console.log("Creating new series... |"+ ob.label +"|");
+            this.obs.push(ob);
+            return true;
+        }
+        /* If we already have obs and found start, abort */
+        if (ob.label.search(/Start/i) > -1){
+            //console.log("Start found, aborting... |"+ ob.label +"|"); 
+            return false;
+        }
+        var deltaT = ob.time - this.obs[this.obs.length-1].time;
+        //console.log("ob.label:"+ ob.label +":");
+        //if (ob.label.search(/Stop/i) > -1){
+            //console.log("adding... |"+ ob.label +"|")
+            this.obs.push(ob);
+            return true;
+        //}
+        //if (deltaT < (3*60*1000) && ob.label == ""){
+        //if (ob.label == ""){
+        //    this.obs.push(ob);
+        //    return true;
+        //}
+        //console.log("Returning false, ob.label is|"+ ob.label +"|");
+        //return false;
+    };
+}
+
+var dataset = [];
+var MYSITE = '';
+var HEADERLOCS = {
+  time : 0,
+  fields : 0
+};
+
+/* Sets the current site */
+function setSite(site_code){
+  MYSITE = site_code;
+  document.getElementById("tabs").style.display = 'block';
+  document.getElementById("process").style.display = 'none';
+  locations = [];
+  /* Load up the metadata for locations we collection from */
+  url = 'https://spreadsheets.google.com/feeds/list/'+meta_key+'/2/private/full';
+    var callback = function(response) {
+          if (response.oauthApprovalUrl) {
+            var personalize = document.getElementById('personalize');
+            personalize.href = response.oauthApprovalUrl;
+            showOneSection('approval');
+          } else if (response.feed) {
+            //console.log('Setting locations, mysite is '+ MYSITE );
+            var list = response.feed.entry;
+            for(var i=0, n=list.length; i < n; i++) {
+              var entry = list[i];
+              if (MYSITE == entry.gsx$uniqueid.$t){
+               
+                locations.push( new Location(entry.gsx$samplekey.$t,
+                             entry.gsx$chambervolm3.$t,
+                            entry.gsx$chambersam2.$t
+                             ));
+              }  
+            }
+            /* Add invalid entry option */
+           
+            locations.push( new Location('Ignore/Skip', 0, 0) );
+            document.getElementById("process").style.display = 'block';
+          } else {
+            var main = document.getElementById('main');
+            var err = document.createTextNode('Something went wrong');
+            main.appendChild(err);
+            showOneSection('main');
+          }
+        };
+        service.getFeed(url, callback, callback);
+}
+
+/*
+ * Determine the ordering of data in this file
+ */
+function processHeader(firstLine){
+  HEADERLOCS = {
+    time : 0,
+    fields : 0
+  };
+  var tokens = firstLine.replace(/\t/g, '    ').replace(/"/g,' ').split(/\s{2,}/);
+  for (var i=1;i<tokens.length;i++){
+    if (tokens[i].search(/NITROUSOXIDE/i) > -1){
+      HEADERLOCS.n2o = i+1;
+      HEADERLOCS.fields += 1;
+    } else if (tokens[i].search(/CARBONDIOXIDE/i) > -1){
+      HEADERLOCS.co2 = i+1;
+      HEADERLOCS.fields += 1;
+    } else if (tokens[i].search(/CO2/i) > -1){
+      HEADERLOCS.co2 = i+1;
+      HEADERLOCS.fields += 1;
+    } else if (tokens[i].search(/VAPOUR/i) > -1){
+      HEADERLOCS.dew = i+1;
+      HEADERLOCS.fields += 1;
+    } else if (tokens[i].search(/AMMONIA/i) > -1){
+      HEADERLOCS.ammonia = i+1;
+      HEADERLOCS.fields += 1;
+    }
+  }
+  if (HEADERLOCS.fields == 0){
+    alert("ERROR: First row of data file was not the header, please copy it in as the first row");
+  }
+  //console.log(HEADERLOCS);
+  //console.log(tokens);
+}
+
+/* Attempt to process what was pasted into the form! */
+function processRawData(){
+  /* Empty the dataset */
+  //console.log(locations);
+  dataset = [new ObSeries(locations[0])];
+  var data = document.getElementById("rawdata").value.trim();
+  processHeader(data.split("\n")[0]);
+  // Convert tabs to spaces, remove DOS CR/LF and split into lines
+  var lines = data.replace(/\t/g,'    ').replace(/\r\r/g,'').split("\n");
+  for (var i=1; i < lines.length; i++){
+    var line = lines[i];
+    //console.log(line);
+    //console.log(line.length);
+    if (line.length < 30) continue;
+    /* Perhaps we have good data now? */
+    var tokens = line.split(/\s+/);
+    //console.log(tokens);
+    if (tokens.length < 5) continue;
+    // IE treats /11 as 1911, gasp
+    var ts = new Date( Date.parse(tokens[0].slice(0,-2)+'20'+ tokens[0].slice(-2) +' '+ tokens[1]) );
+    //console.log(ts);
+    if (!(ts > 0)) continue;
+    /* Parse data now! */
+    var n2o = parseFloat(tokens[ HEADERLOCS.n2o ]);
+    var co2 = parseFloat(tokens[ HEADERLOCS.co2 ]);
+    var dew = parseFloat(tokens[ HEADERLOCS.dew ]);
+    /* see if we have garbage at the end, to indicate something */
+    var lbl = ""; 
+
+   //console.log("tokens.length: "+ tokens.length +" HEADERLOCS.fields: "+ HEADERLOCS.fields);
+   if (tokens.length > (HEADERLOCS.fields + 2 )){
+      for (k=(HEADERLOCS.fields+2);k<tokens.length;k++){
+        lbl += tokens[k];
+      }
+    }
+    //if (lbl.trim().search(/ambient/i) > -1){
+    //  continue;
+    //}
+    //console.log(ts + line);
+    //console.log("HELLO!"+ ts);
+    var ob = new Observation(ts,n2o,co2,dew,lbl.trim());
+    if (! dataset[dataset.length-1].addOb(ob)){
+      //console.log("Adding obseries!");
+      dataset.push( new ObSeries(locations[0]) );
+      dataset[dataset.length-1].addOb(ob); 
+    }
+  }
+  //console.log(dataset.length);
+  /* We have our dataset now, so lets present it to the user for eval */
+  presentDataset();
+}
+
+/* Show the processed dataset for the raw data */
+function presentDataset(){
+  /* Change to the second tab for review! */
+  $('#tabs').tabs("select", 1);
+
+  /* Get the HTML table for modification */
+  var table = document.getElementById("data_review");
+  /* delete old rows */
+  var rowCount=table.rows.length;
+  for (var i=1;i<rowCount;i++){
+    table.deleteRow(i);
+    rowCount--;
+    i--; 
+  }
+  /* Add new rows */
+  for (var i=0;i<dataset.length;i++){
+    if (dataset[i].obs.length == 0){ continue; }
+    var siteid = dataset[i].getLabel();
+    if (siteid.search(/ambient/i) > -1){ 
+      dataset[i].location = locations[locations.length-1];
+      continue; 
+    }
+    var rowCount = table.rows.length;
+    //console.log("Adding row!");
+    var row = table.insertRow(rowCount);
+ 
+    var cell0 = row.insertCell(0);
+    cell0.appendChild( createLocationDropdown("loc"+i, i, siteid) );
+    var tlabel = document.createElement("p");
+    tlabel.innerHTML = (dataset[i].obs[0].time.getMonth()+1) +"/"+ dataset[i].obs[0].time.getDate() +" @ "+pad(dataset[i].obs[0].time.getHours()) +":"+ pad(dataset[i].obs[0].time.getMinutes()) +"<br />"+ dataset[i].getLabel();
+    cell0.appendChild(tlabel);
+
+    var cell1 = row.insertCell(1);
+    cell1.innerHTML = dataset[i].obs.length; 
+
+    var cell2 = row.insertCell(2);
+    var divn2o = document.createElement("div");
+    divn2o.id = 'N2O_'+i;
+    cell2.appendChild( divn2o );
+
+    var cell3 = row.insertCell(3);
+    var divco2 = document.createElement("div");
+    divco2.id = 'CO2_'+i;
+    cell3.appendChild( divco2 );
+
+    var cell4 = row.insertCell(4);
+    cell4.innerHTML = dataset[i].calcDEW();
+
+    /* Soil Temperature Entry */
+    var st = document.createElement("input");
+    st.type = 'text';
+    st.id = 'st'+ i;
+    st.size = '7';
+    var cell5 = row.insertCell(5);
+    cell5.appendChild(st);
+ 
+    /* Soil Moisture, 3 vals */
+    var cell6 = row.insertCell(6);
+    for (var s=0;s<3;s++){
+      sm = document.createElement('input');
+      sm.id = 'sm_'+i+'_'+s;
+      sm.type = 'text';
+      sm.size = '7';
+      cell6.appendChild(sm);
+    } 
+
+    dataset[i].calcFluxes(i); 
+  }
+}
+
+function good(entry){
+  //alert("Data was saved!");
+}
+function bad(error){
+  alert(error);
+}
+
+function getBackendSpreadsheet(key){
+  return 'https://spreadsheets.google.com/feeds/list/'+ key +'/1/private/full';
+}
+
+/*
+ * We are saving the data to the backend spreadsheet!
+ */
+function saveData(){
+  var k2015 = '1FxKx0GDJxv_8fIjKe2xRJ58FGILLlUSXcb6EuSLQSrI';
+  var k2014 = '0AqZGw0coobCxdFBLX19aeVVCT25LQ2xVNVc5bzF5QlE';
+  var k2013 = '0AqZGw0coobCxdFFaQkVaMnBuOV9nNGFOUU81SWJET3c';
+  var k2012 = '0AqZGw0coobCxdHYxRHdidXFqenBNR2dPcUpxLUlXTVE';
+  var k2011 = '0AqZGw0coobCxdE85TDBybUZfUDREeUM2VEhoNGpQMFE';
+  var v;
+  for (var i =0; i < dataset.length; i++){
+    if (dataset[i].location.key == 'Ignore/Skip'){ continue; }
+    entry = {xmlns: "http://www.w3.org/2005/Atom", 
+            xmlns$gsx: "http://schemas.google.com/spreadsheets/2006/extended"};
+    entry['gsx$uniqueid'] = {$t:MYSITE};
+    v = dataset[i].obs[0].time;
+    entry['gsx$valid'] = {$t:v};
+    if (dataset[i].obs[0].time.getFullYear() == 2015){
+      url = getBackendSpreadsheet(k2015);
+    }
+    else if (dataset[i].obs[0].time.getFullYear() == 2014){
+      url = getBackendSpreadsheet(k2014);
+    }
+    else if (dataset[i].obs[0].time.getFullYear() == 2013){
+      url = getBackendSpreadsheet(k2013);
+    }
+    else if (dataset[i].obs[0].time.getFullYear() == 2012){
+      url = getBackendSpreadsheet(k2012);
+    } else {
+      url = getBackendSpreadsheet(k2011);
+    }
+    entry['gsx$samplekey'] = {$t:dataset[i].location.key};
+    entry['gsx$count'] = {$t:dataset[i].obs.length};
+    entry['gsx$co2flux'] = {$t:dataset[i].co2_slope};
+    entry['gsx$co2r2'] = {$t:dataset[i].co2_r2};
+    entry['gsx$n2oflux'] = {$t:dataset[i].n2o_slope};
+    entry['gsx$n2or2'] = {$t:dataset[i].n2o_r2};
+    entry['gsx$dewpoint'] = {$t:dataset[i].calcDEW()};
+    entry['gsx$soiltemp'] = {$t:document.getElementById("st"+i).value};
+    entry['gsx$soilmoisture1'] = {$t:document.getElementById("sm_"+i+"_0").value};
+    entry['gsx$soilmoisture2'] = {$t:document.getElementById("sm_"+i+"_1").value};
+    entry['gsx$soilmoisture3'] = {$t:document.getElementById("sm_"+i+"_2").value};
+
+    service.insertEntry(url, entry, good, bad);
+  }
+  alert("Data was saved...");
+  if (dataset.length > 0){
+    updateLastColumn(v);
+  }
+}
+
+function createLocationDropdown(name, i, siteid){
+  //console.log('here');
+  var el = document.createElement('select');
+  el.name = name;
+  el.setAttribute("i", i);
+  el.onchange = function(){
+    var i = parseInt( this.getAttribute("i") );
+    dataset[i].location = locations[this.selectedIndex];
+    dataset[i].calcFluxes(i);
+  };
+
+  for (j=0;j<locations.length;j++){
+    //console.log(j +"--"+ locations[j].key);
+    var opt = document.createElement("option");
+    opt.text = locations[j].key;
+    opt.value = locations[j].key;
+    if (locations[j].key == siteid){
+      opt.selected = 'selected';
+      dataset[i].location = locations[j];
+    };
+    el.options.add(opt);
+  }  
+  return el;
+}
+
+
+      function showOneSection(toshow) {
+        var sections = [ 'loading', 'main', 'approval', 'waiting' ];
+        for (var i=0; i < sections.length; ++i) {
+          var s = sections[i];
+          var el = document.getElementById(s);
+          if (s === toshow) {
+            el.style.display = "block";
+          } else {
+            el.style.display = "none";
+          }
+        }
+      }
+
+  function adjustSiteSelector(){
+     var el = document.getElementById('siteSelector');
+
+     for (i=0;i<sites.length;i++){
+       var opt = document.createElement("option");
+       opt.text = sites[i];
+       opt.value = sitekeys[i];
+       el.options.add(opt);
+     }
+
+
+  }
+
+/* Use test data */
+function loadDummyData(){
+  var ta = document.getElementById("rawdata");
+  //ta.value = DUMMY_DATA.replace(/\t/g, '    ');
+  ta.value = DUMMY_DATA;
+}
+
+function cb(res){
+
+}
+
+/* Update the last column on the metadata sheet feed */
+function updateLastColumn(timestamp){
+  var list = metadataSheetFeed.entry;
+  for(var i=0, n=list.length; i < n; i++) {
+    var entry = list[i];
+    if (entry.gsx$uniqueid.$t == MYSITE){
+        entry['gsx$last'] = {$t: timestamp};
+        service.setHeaders({"If-Match": "*"});
+        service.updateEntry(entry.id.$t, entry, cb, cb);
+        service.setHeaders({"If-Match": null});
+    }
+  }
+}
+
+/* Process the spreadsheet feed */
+function processSites(response){
+  metadataSheetFeed = response.feed;
+  var list = metadataSheetFeed.entry;
+  for(var i=0, n=list.length; i < n; i++) {
+    var entry = list[i];
+    sites.push(entry.gsx$uniqueid.$t +": "+ entry.gsx$name.$t +": Last -"+ entry.gsx$last.$t);
+    sitekeys.push(entry.gsx$uniqueid.$t);
+  }
+  adjustSiteSelector();
+} 
+
+/* Called once google has all our apis loaded! */
+function bootstrap(){
+    $( "#tabs" ).tabs();
+    document.getElementById("tabs").style.display = 'none';
+    url = 'https://spreadsheets.google.com/feeds/list/'+meta_key+'/1/private/full';
+    var callback = function(response) {
+          if (response.oauthApprovalUrl) {
+            var personalize = document.getElementById('personalize');
+            personalize.href = response.oauthApprovalUrl;
+            showOneSection('approval');
+          } else if (response.feed) {
+            showOneSection('main');
+            processSites(response);
+          } else {
+            var main = document.getElementById('main');
+            var err = document.createTextNode('Something went wrong');
+            main.appendChild(err);
+            showOneSection('main');
+          }
+        };
+        service = new google.gdata.client.GoogleService('testapp');
+        service.useOAuth('google');
+        service.getFeed(url, callback, callback);
+  }
+
+/* called after gadgets are ready, now we need more apis */
+function myinit(){
+    google.load("gdata", "2.x");
+    google.load("jquery", "1.7.1");
+    google.load("jqueryui", "1.8.16");
+    google.setOnLoadCallback(bootstrap);
+
+}
+
+/* Wait until google gadgets is fired up */
+gadgets.util.registerOnLoadHandler(myinit);
+</script>
+    ]]>
+  </Content>
+</Module>

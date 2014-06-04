@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="I-FARM Field Form">    
+<OAuth>
+   <Service name="google">
+      <Access url="https://www.google.com/accounts/OAuthGetAccessToken" method="GET" />
+      <Request url="https://www.google.com/accounts/OAuthGetRequestToken?scope=https://spreadsheets.google.com/feeds/" method="GET" />
+      <Authorization url="https://www.google.com/accounts/OAuthAuthorizeToken" />
+   </Service>
+</OAuth>
+</ModulePrefs>
+<Content type="html"><![CDATA[
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+   <script src="https://www.google.com/jsapi?key=ABQIAAAArXt77YptylBNPFEy0AgJxBQV4szfgV8zGZZkur1B-B3W8b5AThTSlomZliOt8JQHJGH1m63sgDu1rg" type="text/javascript"></script>
+
+<!-- Initially displayed and then hidden once we are running -->
+<div id="loading">
+ <p><strong>Management form is loading...</strong>
+</div>
+
+<!-- Displayed if this gadget needs oauth2 approval -->
+<div id="approval" style="display: none">
+ <a id="personalize"
+              onclick="javascript:showOneSection('waiting'); return true"
+                      target="approve">Click to authorize this gadget</a>
+</div>
+
+<!-- Displayed once the approval process begins... -->
+<div id="waiting" style="display: none">
+      Please click
+            <a href="#" onclick="javascript:bootstrap()">I've approved access</a>
+                  once you've approved access to your data.
+</div>
+
+<!-- Our main 'window' -->
+<div id="main" style="display: none">
+ <p>Hello World!</p>
+</div><!-- End of main -->
+<script type="text/javascript">
+var sskey = '0Ajhrz-kLvykNdFVTalhHMkdmUkthaS11aUFNcE5OaXc';
+
+function showOneSection(toshow) {
+    var sections = [ 'loading', 'main', 'approval', 'waiting' ];
+    for (var i=0; i < sections.length; ++i) {
+        var s = sections[i];
+        var el = document.getElementById(s);
+        if (s === toshow) {
+            el.style.display = "block";
+        } else {
+            el.style.display = "none";
+        }
+    }
+}
+
+
+/* Called once google has all our apis loaded! */
+function bootstrap(){
+   url = 'https://spreadsheets.google.com/feeds/list/'+ sskey +'/1/private/full';
+   var callback = function(response) {
+         if (response.oauthApprovalUrl) {
+             var personalize = document.getElementById('personalize');
+             personalize.href = response.oauthApprovalUrl;
+             showOneSection('approval');
+         } else if (response.feed) {
+             showOneSection('main');
+         } else {
+             var main = document.getElementById('main');
+             var err = document.createTextNode('Something went wrong');
+             main.appendChild(err);
+             showOneSection('main');
+         }
+    };
+    service = new google.gdata.client.GoogleService('testapp');
+    service.useOAuth('google');
+    service.getFeed(url, callback, callback);
+} /* End of bootstrap() */
+
+/* called after gadgets are ready, now we need more apis */
+function myinit(){
+  google.load("gdata", "2.x");
+  google.load("jquery", "1.7.1");
+  google.load("jqueryui", "1.8.16");
+  google.setOnLoadCallback(bootstrap);
+}
+
+/* Wait until google gadgets is fired up */
+gadgets.util.registerOnLoadHandler(myinit);
+
+</script>
+]]></Content>
+</Module>
+

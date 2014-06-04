@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="I-FARM Field Form">    
+<OAuth>
+   <Service name="google">
+      <Access url="https://www.google.com/accounts/OAuthGetAccessToken" method="GET" />
+      <Request url="https://www.google.com/accounts/OAuthGetRequestToken?scope=https://spreadsheets.google.com/feeds/" method="GET" />
+      <Authorization url="https://www.google.com/accounts/OAuthAuthorizeToken" />
+   </Service>
+</OAuth>
+</ModulePrefs>
+<Content type="html"><![CDATA[
+
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
+   <script src="https://www.google.com/jsapi?key=ABQIAAAArXt77YptylBNPFEy0AgJxBQV4szfgV8zGZZkur1B-B3W8b5AThTSlomZliOt8JQHJGH1m63sgDu1rg" type="text/javascript"></script>
+
+<!-- Initially displayed and then hidden once we are running -->
+<div id="loading">
+ <p><strong>IFARM Print form is loading...</strong>
+</div>
+
+<!-- Displayed if this gadget needs oauth2 approval -->
+<div id="approval" style="display: none">
+ <a id="personalize"
+              onclick="javascript:showOneSection('waiting'); return true"
+                      target="approve">Click to authorize this gadget</a>
+</div>
+
+<!-- Displayed once the approval process begins... -->
+<div id="waiting" style="display: none">
+      Please click
+            <a href="#" onclick="javascript:bootstrap();">I've approved access</a>
+                  once you've approved access to your data.
+</div>
+
+<!-- Our main 'window' -->
+<div id="main" style="display: none">
+
+<form name="printer">
+<p><strong>Select Farmer</strong>
+<br /><select name="farmer" id="farmer" onChange="viewFarm(this.options[this.selectedIndex].value);">
+<option value="invalid">Select Farmcode from list</option>
+</select>
+
+<p><input type="button" value="Print Survey" onclick="javascript: print();">
+</form>
+
+<div id="farmResults"></div>
+<div id="results"></div>
+
+</div><!-- End of main -->
+<script type="text/javascript">
+/* Two backend spreadsheets that we need to merge */
+var ss_farmers = '0AugT6NSY_M5HdHJmYjlRTldpV3BPaDFGTjVFckhhSWc';
+var ss_fields = '0AugT6NSY_M5HdGlYbFRxZ1R4RUdCS1hWa3hWejd4cEE';
+var ss_conservation = '0AugT6NSY_M5HdGdmTmtfWm9PbGtOQ09aeUpkcVhvWHc';
+var farmList = null;
+var fieldList = null;
+var conservationList = null;
+
+var skipfields = ['selectoneoftheoptionsbelow.',
+'ihaveadditionaloperationstoenterregardingthiscropplantingweedcontrolfertilizerorharvest',
+'ihaveadditionaloperationstoenterregardingthiscroptillageweedcontrolfertilizerorharvest',
+'ihaveadditionaloperationstoenterregardingthiscropplantingtillageweedcontrolorfertilizer', 
+'ihaveadditionaloperationstoenterregardingthiscropplantingtillagefertilizerorharvest', 
+'ihaveadditionaloperationstoenterregardingthiscropplantingtillageweedcontrolorharvest',
+'ihaveadditionaloperationstoenterregardingthemaincroponthisfieldplantingtillageweedcontrolorharvest',
+'iamreadytosubmitthisformintothedatabase.'];
+
+function debugPrint(list, farmcode, fc, callback){
+  var html = "";
+  for(var i=0, n=list.length; i < n; i++) {
+        var entry = list[i];
+        if (! entry.hasOwnProperty(fc) ) continue;
+        if (entry[fc].$t != farmcode) continue;
+        entry = callback(entry);
+        for (var prop in entry){
+           if (prop.substr(0,3) == 'gsx' && 
+               skipfields.indexOf(prop.substr(4,1000)) == -1 && 
+               entry[prop].$t != ''){
+             html += "<br /><strong>"+ prop.substr(4,1000) +":</strong> "+ entry[prop].$t;
+           }
+        }
+  }
+  return html;
+}
+
+function printFarm(entry){
+  el = document.getElementById("farmResults");
+  html = "";
+
+  html = "<strong>Entered:</strong> "+ entry['gsx$timestamp'].$t ;
+  delete entry['gsx$timestamp'];
+  html += "<br /><strong>Interview By:</strong> "+ entry['gsx$interviewername'].$t ;
+  delete entry['gsx$interviewername'];
+  html += " <strong>On:</strong> "+ entry['gsx$dateofinterview'].$t ;
+  delete entry['gsx$dateofinterview'];
+  html += " <strong>for Farm Code:</strong> "+ entry['gsx$farmcode'].$t ;
+  delete entry['gsx$farmcode'];
+
+  html += "<br /><strong>Farm is located in county, state:</strong> "+ entry['gsx$county'].$t +", "+ entry['gsx$state'].$t ;
+  delete entry['gsx$county'];
+  delete entry['gsx$state'];
+
+  html += "<br /><strong>Operation Type:</strong> "+ entry['gsx$typeofoperation'].$t ;
+  delete entry['gsx$typeofoperation'];
+  html += " <strong>Labor Availability:</strong> "+ entry['gsx$farmlaboravailability'].$t ;
+  delete entry['gsx$farmlaboravailability'];
+
+  html += "<br /><strong>Total acres owned:</strong> "+ entry['gsx$totalacresowned'].$t 
+          +" <strong>rented:</strong> "+ entry['gsx$totalacresrented'].$t
+          +" <strong>pasture/hay:</strong> "+ entry['gsx$numberofacresinpastureorhay'].$t;
+  delete entry['gsx$totalacresowned'];
+  delete entry['gsx$totalacresrented'];
+  delete entry['gsx$numberofacresinpastureorhay'];
+
+
+  el.innerHTML = html;
+  return entry;
+}
+function printField(entry){
+  return entry;
+}
+function printConservation(entry){
+  return entry;
+}
+
+/* Called when option is selected from selector */
+function viewFarm(farmcode) {
+  if (farmcode == 'invalid') return;
+  if (fieldList == null) return;
+
+  var results = document.getElementById("results");
+  var html = "";
+
+  html += "<hr><p>Unused Key/Values from farmList";
+  html += debugPrint(farmList, farmcode, 'gsx$farmcode', printFarm);
+  html += "<hr><p>Unused Key/Values from fieldList";
+  html += debugPrint(fieldList, farmcode, 'gsx$farmercode', printField);
+  html += "<hr><p>Unused Key/Values from conservationList";
+  html += debugPrint(conservationList, farmcode, 'gsx$enterthefarmer5digitcode', printConservation);
+
+
+  results.innerHTML = html;
+
+}
+
+function showOneSection(toshow) {
+    var sections = [ 'loading', 'main', 'approval', 'waiting' ];
+    for (var i=0; i < sections.length; ++i) {
+        var s = sections[i];
+        var el = document.getElementById(s);
+        if (s === toshow) {
+            el.style.display = "block";
+        } else {
+            el.style.display = "none";
+        }
+    }
+}
+
+function showResults(result){
+  var sheetFeed = result.feed;
+  farmList = sheetFeed.entry;
+  var farmerSelector = document.getElementById("farmer");
+  for(var i=0, n=farmList.length; i < n; i++) {
+        var entry = farmList[i];
+        //console.log(entry);
+        var fc = entry.gsx$farmcode.$t;
+        var opt = document.createElement("option");
+        opt.text = fc;
+        opt.value = fc;
+        farmerSelector.options.add(opt);
+    }
+} /* End of showResults */
+
+/* Called once google has all our apis loaded! */
+function bootstrap(){
+   //console.log("Bootstrap called");
+   url = 'https://spreadsheets.google.com/feeds/list/'+ ss_farmers +'/1/private/full';
+   var callback = function(response) {
+         if (response.oauthApprovalUrl) {
+             var personalize = document.getElementById('personalize');
+             personalize.href = response.oauthApprovalUrl;
+             showOneSection('approval');
+         } else if (response.feed) {
+             showOneSection('main');
+             showResults(response);
+         } else {
+             var main = document.getElementById('main');
+             var err = document.createTextNode('Something went wrong');
+             main.appendChild(err);
+             showOneSection('main');
+         }
+    };
+    service = new google.gdata.client.GoogleService('testapp');
+    service.useOAuth('google');
+    service.getFeed(url, callback, callback);
+
+   /* Load fields as well */
+   url = 'https://spreadsheets.google.com/feeds/list/'+ ss_fields +'/1/private/full';
+   var callback2 = function(response) {
+         if (response.feed) {
+             fieldList = response.feed.entry;
+         } 
+    };
+    service = new google.gdata.client.GoogleService('testapp');
+    service.useOAuth('google');
+    service.getFeed(url, callback2, callback2);
+
+   /* Load conservation as well */
+   url = 'https://spreadsheets.google.com/feeds/list/'+ ss_conservation +'/1/private/full';
+   var callback3 = function(response) {
+         if (response.feed) {
+             conservationList = response.feed.entry;
+         } 
+    };
+    service = new google.gdata.client.GoogleService('testapp');
+    service.useOAuth('google');
+    service.getFeed(url, callback3, callback3);
+
+} /* End of bootstrap() */
+
+/* called after gadgets are ready, now we need more apis */
+function myinit(){
+  google.load("gdata", "2.x");
+  google.load("jquery", "1.7.1");
+  google.load("jqueryui", "1.8.16");
+  google.setOnLoadCallback(bootstrap);
+}
+
+/* Wait until google gadgets is fired up */
+gadgets.util.registerOnLoadHandler(myinit);
+
+</script>
+]]></Content>
+</Module>
+
