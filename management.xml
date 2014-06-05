@@ -133,6 +133,18 @@ any changes you make, click the CLEAR FORM button at the bottom.</div>
  <option value="gas">Gas (anhydrous)</option>
 </select>
 
+<p><strong>Which crop was this applied to:</strong>
+<select id="fertilizer_crop">
+ <option value="invalid">Select from list</option>
+ <option value="corn">Corn</option>
+ <option value="soybean">Soy</option>
+ <option value="wheat">Wheat</option>
+ <option value="oats">Oats</option>
+ <option value="alfalfa">Alfalfa</option>
+ <option value="multiple">multiple crops (explain in Comments)</option>
+ <option value="other">other (explain in Comments)</option>
+</select>
+
 <p><strong>Application Type:</strong>
 <select id="fertilizer_apptype" onChange="showFertilizerInjection(this.options[this.selectedIndex].value);">
  <option value="invalid">Select from List</option>
@@ -1593,6 +1605,7 @@ document.getElementById("soiladmend_neutral_index").value = entry.gsx$neutralind
     dei("submitbutton").value = "Save Edit of Previous Operation";
 
     dei("fertilizer_form").value = entry.gsx$fertilizerform.$t;
+    dei("fertilizer_crop").value = entry.gsx$fertilizercrop.$t;
     dei("fertilizer_apptype").value = entry.gsx$fertilizerapptype.$t;
     showFertilizerInjection(entry.gsx$fertilizerapptype.$t);
     dei("fertilizer_formulation").value = entry.gsx$fertilizerformulation.$t;
@@ -2168,9 +2181,11 @@ function saveOperationData(){
       }
       if (optokens[0] == "fertilizer"){
          var fertilizer_form = document.getElementById("fertilizer_form").value;
+         var fertilizer_crop = dei("fertilizer_crop").value;
          var fertilizer_apptype = document.getElementById("fertilizer_apptype").value;
           var fertilizer_formulation = document.getElementById("fertilizer_formulation").value;
          entry['gsx$fertilizerform'] = {$t:fertilizer_form}; 
+         entry['gsx$fertilizercrop'] = {$t:fertilizer_crop}; 
          entry['gsx$fertilizerapptype'] = {$t:fertilizer_apptype};
          var fertilizer_injection_depth = parseFloat(document.getElementById("fertilizer_injection_depth").value);
           if (fertilizer_apptype.search('injected') == 0){
