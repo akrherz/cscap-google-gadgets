@@ -137,7 +137,7 @@ any changes you make, click the CLEAR FORM button at the bottom.</div>
 <select id="fertilizer_crop">
  <option value="invalid">Select from list</option>
  <option value="corn">Corn</option>
- <option value="soy">Soy</option>
+ <option value="soybean">Soybean</option>
  <option value="wheat">Wheat</option>
  <option value="oats">Oats</option>
  <option value="alfalfa">Alfalfa</option>
