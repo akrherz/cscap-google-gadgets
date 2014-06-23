@@ -2211,7 +2211,7 @@ function saveOperationData(){
          var prodrate = parseFloat(document.getElementById("product_rate").value) * 1.12; 
          var fieldappend = '';       
          if (prate_text != ""){
-           if (prodrate < 1 || prodrate > 1000){
+           if (prodrate < -1 || prodrate > 1000){
              alert("Error, product rate outside of bounds 1-1000");
              return;
            }
