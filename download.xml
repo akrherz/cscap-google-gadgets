@@ -38,82 +38,136 @@
 <tr><td width="25%">Treatments to include:
 <br />(check all that apply)</td>
 
-<td><input type="radio" name="treatments" value="all">Give me all treatments!</input>
+<td><input type="checkbox" name="treatments" value="all">Give me all treatments!</input>
 <br /><strong>Tillage</strong>
-<br /><input type="radio" name="treatments" value="TIL1">TIL1</input>
-<br /><input type="radio" name="treatments" value="TIL2">TIL2</input>
-<br /><strong>Crop Rotations</strong>
-<br /><input type="radio" name="treatments" value="ROT1">ROT1</input>
-<br /><input type="radio" name="treatments" value="ROT2">ROT2</input>
+<br /><input type="checkbox" name="treatments" value="TIL1">[1] No Tillage (NT)</input>
+<br /><input type="checkbox" name="treatments" value="TIL2">[2] Conventional Tillage (CT)</input>
+<br /><strong>Rotation</strong>
+<br /><input type="checkbox" name="treatments" value="ROT1">[1] continuous corn</input>
+<br /><input type="checkbox" name="treatments" value="ROT2">[2] continuous soybean</input>
+<br /><input type="checkbox" name="treatments" value="ROT3">[3] continuous wheat</input>
+<br /><input type="checkbox" name="treatments" value="ROT4">[4] CORN-soybean</input>
+<br /><input type="checkbox" name="treatments" value="ROT5">[5] corn-SOYBEAN</input>
+<br /><input type="checkbox" name="treatments" value="ROT6">[6] CORN-soybean-wheat</input>
+<br /><input type="checkbox" name="treatments" value="ROT7">[7] corn-SOYBEAN-wheat</input>
+<br /><input type="checkbox" name="treatments" value="ROT8">[8] corn-soybean-WHEAT</input>
+<br /><input type="checkbox" name="treatments" value="ROT9">[9] CORN-soybean-wheat (biomass removed)</input>
+<br /><input type="checkbox" name="treatments" value="ROT10">[10] corn-SOYBEAN-wheat (biomass removed)</input>
+<br /><input type="checkbox" name="treatments" value="ROT11">[11] corn-soybean-WHEAT (BIOMASS REMOVED)</input>
+<br /><input type="checkbox" name="treatments" value="ROT12">[12] CORN-soybean-wheat/red clover (organic)</input>
+<br /><input type="checkbox" name="treatments" value="ROT13">[13] corn-SOYBEAN-wheat/red clover (organic)</input>
+<br /><input type="checkbox" name="treatments" value="ROT14">[14] corn-soybean-WHEAT/RED CLOVER (ORGANIC)</input>
+<br /><input type="checkbox" name="treatments" value="ROT15">[15] CORN-soybean-wheat/red clover (non-organic)</input>
+<br /><input type="checkbox" name="treatments" value="ROT16">[16] corn-SOYBEAN-wheat/red clover (non-organic)</input>
+<br /><input type="checkbox" name="treatments" value="ROT17">[17] corn-soybean-WHEAT/RED CLOVER (NON-ORGANIC)</input>
+<br /><input type="checkbox" name="treatments" value="ROT18">[18] CORN-wheat-soybean</input>
+<br /><input type="checkbox" name="treatments" value="ROT19">[19] corn-WHEAT-soybean</input>
+<br /><input type="checkbox" name="treatments" value="ROT20">[20] corn-wheat-SOYBEAN</input>
+<br /><input type="checkbox" name="treatments" value="ROT21">[21] CORN-soybean-corn-oats-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT22">[22] corn-SOYBEAN-corn-oats-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT23">[23] corn-soybean-CORN-oats-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT24">[24] corn-soybean-corn-OATS-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT25">[25] corn-soybean-corn-oats-ALFALFA</input>
+<br /><input type="checkbox" name="treatments" value="ROT26">[26] CORN-corn-corn-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT27">[27] corn-CORN-corn-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT28">[28] corn-corn-CORN-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT29">[29] corn-corn-corn-ALFALFA-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT30">[30] corn-corn-corn-alfalfa-ALFALFA</input>
+<br /><input type="checkbox" name="treatments" value="ROT31">[31] CORN-corn-oats-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT32">[32] corn-CORN-oats-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT33">[33] corn-corn-OATS-alfalfa-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT34">[34] corn-corn-oats-ALFALFA-alfalfa</input>
+<br /><input type="checkbox" name="treatments" value="ROT35">[35] corn-corn-oats-alfalfa-ALFALFA</input>
+<br /><input type="checkbox" name="treatments" value="ROT36">[36] CORN-soybean with rye cover</input>
+<br /><input type="checkbox" name="treatments" value="ROT37">[37] corn-SOYBEAN with rye cover</input>
+<br /><input type="checkbox" name="treatments" value="ROT38">[38] continuous corn with rye cover</input>
+<br /><input type="checkbox" name="treatments" value="ROT39">[39] continuous soybean with rye cover</input>
+<br /><input type="checkbox" name="treatments" value="ROT40">[40] prairie (managed by cutting 2+/year)</input>
+<br /><strong>Drainage Water Management</strong>
+<br /><input type="checkbox" name="treatments" value="DWM1">[1] No drainage</input>
+<br /><input type="checkbox" name="treatments" value="DWM2">[2] Conventional drainage ("free")</input>
+<br /><input type="checkbox" name="treatments" value="DWM3">[3] Controlled drainage ("managed")</input>
+<br /><input type="checkbox" name="treatments" value="DWM4">[4] Shallow drainage</input>
+<br /><input type="checkbox" name="treatments" value="DWM5">[5] Drainage with subirrigation</input>
+<br /><input type="checkbox" name="treatments" value="DWM6">[6] Lysimeters</input>
+<br /><strong>Nitrogen</strong>
+<br /><input type="checkbox" name="treatments" value="NIT1">[1] No additional nitrogen fertilizer applied</input>
+<br /><input type="checkbox" name="treatments" value="NIT2">[2] MRTN application of N fertilizer in spring</input>
+<br /><input type="checkbox" name="treatments" value="NIT3">[3] Sensor based N application (mid-season) - MO/OH rec</input>
+<br /><input type="checkbox" name="treatments" value="NIT4">[4] Sensor based N application (mid-season) - OK rec</input>
+<br /><strong>Landscape Position</strong>
+<br /><input type="checkbox" name="treatments" value="LND1">[1] Near-summit</input>
+<br /><input type="checkbox" name="treatments" value="LND2">[2] Side slope</input>
+<br /><input type="checkbox" name="treatments" value="LND3">[3] Toe slope</input>
 </td></tr>
 
 <!-- Variables -->
 <tr><td width="25%">Data to export:
 <br />(check all that apply)</td>
 
-<td><input type="radio" name="data" value="all">Give me everything that exists!</input>
-<br /><input type="radio" name="data" value="AGR1">[1] Corn final plant population</input>
-<br /><input type="radio" name="data" value="AGR2">[2] Soybean final plant population</input>
-<br /><input type="radio" name="data" value="AGR3">[3] Mid-season canopy N sensing</input>
-<br /><input type="radio" name="data" value="AGR4">[4] Corn vegetative biomass at R6 (dry)</input>
-<br /><input type="radio" name="data" value="AGR32">[32] Corn cob biomass at R6 (dry)</input>
-<br /><input type="radio" name="data" value="AGR33">[33] Corn grain biomass at R6 (dry)</input>
-<br /><input type="radio" name="data" value="AGR5">[5] Soybean vegetative biomass at R8 (stems and pods only; no leaves)</input>
-<br /><input type="radio" name="data" value="AGR34">[34] Soybean grain biomass at R8 (dry)</input>
-<br /><input type="radio" name="data" value="AGR6">[6] Cover crop (rye) biomass in late fall (no significant weeds)</input>
-<br /><input type="radio" name="data" value="AGR37">[37] Cover crop (rye) and weedy biomass in late fall</input>
-<br /><input type="radio" name="data" value="AGR38">[38] Weedy biomass (only) in late fall</input>
-<br /><input type="radio" name="data" value="AGR7">[7] Cover crop (rye) biomass at termination (spring) (no significant weeds)</input>
-<br /><input type="radio" name="data" value="AGR39">[39] Cover crop (rye) and weedy biomass at termination (spring)</input>
-<br /><input type="radio" name="data" value="AGR40">[40] Weedy biomass (only) at termination (spring)</input>
-<br /><input type="radio" name="data" value="AGR8">[8] Wheat plant biomass at maturity</input>
-<br /><input type="radio" name="data" value="AGR9">[9] Corn vegetative biomass total carbon at R6</input>
-<br /><input type="radio" name="data" value="AGR10">[10] Corn vegetative biomass total nitrogen at R6</input>
-<br /><input type="radio" name="data" value="AGR11">[11] Soybean vegetative biomass total carbon at R8</input>
-<br /><input type="radio" name="data" value="AGR12">[12] Soybean vegetative biomass total nitrogen at R8</input>
-<br /><input type="radio" name="data" value="AGR13">[13] Rye biomass total carbon at fall</input>
-<br /><input type="radio" name="data" value="AGR14">[14] Rye biomass total nitrogen at fall</input>
-<br /><input type="radio" name="data" value="AGR15">[15] Rye biomass total carbon at spring</input>
-<br /><input type="radio" name="data" value="AGR16">[16] Rye biomass total nitrogen at spring</input>
-<br /><input type="radio" name="data" value="AGR41">[41] Red clover cover crop biomass</input>
-<br /><input type="radio" name="data" value="AGR42">[42] Red clover cover crop total nitrogen</input>
-<br /><input type="radio" name="data" value="AGR43">[43] Red clover cover crop total carbon</input>
-<br /><input type="radio" name="data" value="AGR17">[17] Corn grain yield at 15.5% MB</input>
-<br /><input type="radio" name="data" value="AGR18">[18] Corn grain moisture</input>
-<br /><input type="radio" name="data" value="AGR19">[19] Soybean grain yield at 13.0% MB</input>
-<br /><input type="radio" name="data" value="AGR20">[20] Soybean grain moisture</input>
-<br /><input type="radio" name="data" value="AGR21">[21] Wheat grain yield at 13.5% MB</input>
-<br /><input type="radio" name="data" value="AGR22">[22] Wheat grain moisture</input>
-<br /><input type="radio" name="data" value="AGR23">[23] Corn grain total carbon at R6</input>
-<br /><input type="radio" name="data" value="AGR24">[24] Corn cob total carbon at R6</input>
-<br /><input type="radio" name="data" value="AGR25">[25] Corn grain total nitrogen at R6</input>
-<br /><input type="radio" name="data" value="AGR26">[26] Corn cob total nitrogen at R6</input>
-<br /><input type="radio" name="data" value="AGR27">[27] Soybean grain total carbon at R8</input>
-<br /><input type="radio" name="data" value="AGR28">[28] Soybean grain total nitrogen at R8</input>
-<br /><input type="radio" name="data" value="AGR29">[29] Wheat grain total carbon at maturity</input>
-<br /><input type="radio" name="data" value="AGR30">[30] Wheat grain total nitrogen at maturity</input>
-<br /><input type="radio" name="data" value="AGR31">[31] Corn stalk nitrate samples</input>
-<br /><input type="radio" name="data" value="SOIL1">[1] Dry bulk density (BD)</input>
-<br /><input type="radio" name="data" value="SOIL2">[2] Water retention (pF curve)</input>
-<br /><input type="radio" name="data" value="SOIL3">[3] Infiltration rate</input>
-<br /><input type="radio" name="data" value="SOIL4">[4] Soil moisture (via bulk density samples)</input>
-<br /><input type="radio" name="data" value="SOIL5">[5] Soil moisture (Decagon moisture sensor)</input>
-<br /><input type="radio" name="data" value="SOIL6">[6] Soil texture</input>
-<br /><input type="radio" name="data" value="SOIL7">[7] Aggregate stability</input>
-<br /><input type="radio" name="data" value="SOIL8">[8] Penetration resistance</input>
-<br /><input type="radio" name="data" value="SOIL9">[9] Soil description to soil profile or rooting zone depth</input>
-<br /><input type="radio" name="data" value="SOIL10">[10] Earthworm (EW) activity</input>
-<br /><input type="radio" name="data" value="SOIL11">[11] pH</input>
-<br /><input type="radio" name="data" value="SOIL12">[12] Cation Exchange Capacity (CEC)</input>
-<br /><input type="radio" name="data" value="SOIL13">[13] Soil Organic Carbon (SOC)</input>
-<br /><input type="radio" name="data" value="SOIL14">[14] Total N</input>
-<br /><input type="radio" name="data" value="SOIL15">[15] Soil Nitrate (Complete Sampling - Sample more than once/year)</input>
-<br /><input type="radio" name="data" value="SOIL16">[16] Soil Nitrate (Partial Sampling - Sample once/year)</input>
-<br /><input type="radio" name="data" value="SOIL17">[17] Fractionation of soil organic matter</input>
-<br /><input type="radio" name="data" value="SOIL18">[18] Particulate organic matter (POM)</input>
-<br /><input type="radio" name="data" value="SOIL19">[19] Standard soil fertility routine analysis</input>
-<br /><input type="radio" name="data" value="SOIL20">[20] Salinity</input>
-<br /><input type="radio" name="data" value="SOIL22">[22] Soil Ammonium (Optional)</input>
+<td><input type="checkbox" name="data" value="all">Give me everything that exists!</input>
+<br /><input type="checkbox" name="data" value="AGR1">[1] Corn final plant population</input>
+<br /><input type="checkbox" name="data" value="AGR2">[2] Soybean final plant population</input>
+<br /><input type="checkbox" name="data" value="AGR3">[3] Mid-season canopy N sensing</input>
+<br /><input type="checkbox" name="data" value="AGR4">[4] Corn vegetative biomass at R6 (dry)</input>
+<br /><input type="checkbox" name="data" value="AGR32">[32] Corn cob biomass at R6 (dry)</input>
+<br /><input type="checkbox" name="data" value="AGR33">[33] Corn grain biomass at R6 (dry)</input>
+<br /><input type="checkbox" name="data" value="AGR5">[5] Soybean vegetative biomass at R8 (stems and pods only; no leaves)</input>
+<br /><input type="checkbox" name="data" value="AGR34">[34] Soybean grain biomass at R8 (dry)</input>
+<br /><input type="checkbox" name="data" value="AGR6">[6] Cover crop (rye) biomass in late fall (no significant weeds)</input>
+<br /><input type="checkbox" name="data" value="AGR37">[37] Cover crop (rye) and weedy biomass in late fall</input>
+<br /><input type="checkbox" name="data" value="AGR38">[38] Weedy biomass (only) in late fall</input>
+<br /><input type="checkbox" name="data" value="AGR7">[7] Cover crop (rye) biomass at termination (spring) (no significant weeds)</input>
+<br /><input type="checkbox" name="data" value="AGR39">[39] Cover crop (rye) and weedy biomass at termination (spring)</input>
+<br /><input type="checkbox" name="data" value="AGR40">[40] Weedy biomass (only) at termination (spring)</input>
+<br /><input type="checkbox" name="data" value="AGR8">[8] Wheat plant biomass at maturity</input>
+<br /><input type="checkbox" name="data" value="AGR9">[9] Corn vegetative biomass total carbon at R6</input>
+<br /><input type="checkbox" name="data" value="AGR10">[10] Corn vegetative biomass total nitrogen at R6</input>
+<br /><input type="checkbox" name="data" value="AGR11">[11] Soybean vegetative biomass total carbon at R8</input>
+<br /><input type="checkbox" name="data" value="AGR12">[12] Soybean vegetative biomass total nitrogen at R8</input>
+<br /><input type="checkbox" name="data" value="AGR13">[13] Rye biomass total carbon at fall</input>
+<br /><input type="checkbox" name="data" value="AGR14">[14] Rye biomass total nitrogen at fall</input>
+<br /><input type="checkbox" name="data" value="AGR15">[15] Rye biomass total carbon at spring</input>
+<br /><input type="checkbox" name="data" value="AGR16">[16] Rye biomass total nitrogen at spring</input>
+<br /><input type="checkbox" name="data" value="AGR41">[41] Red clover cover crop biomass</input>
+<br /><input type="checkbox" name="data" value="AGR42">[42] Red clover cover crop total nitrogen</input>
+<br /><input type="checkbox" name="data" value="AGR43">[43] Red clover cover crop total carbon</input>
+<br /><input type="checkbox" name="data" value="AGR17">[17] Corn grain yield at 15.5% MB</input>
+<br /><input type="checkbox" name="data" value="AGR18">[18] Corn grain moisture</input>
+<br /><input type="checkbox" name="data" value="AGR19">[19] Soybean grain yield at 13.0% MB</input>
+<br /><input type="checkbox" name="data" value="AGR20">[20] Soybean grain moisture</input>
+<br /><input type="checkbox" name="data" value="AGR21">[21] Wheat grain yield at 13.5% MB</input>
+<br /><input type="checkbox" name="data" value="AGR22">[22] Wheat grain moisture</input>
+<br /><input type="checkbox" name="data" value="AGR23">[23] Corn grain total carbon at R6</input>
+<br /><input type="checkbox" name="data" value="AGR24">[24] Corn cob total carbon at R6</input>
+<br /><input type="checkbox" name="data" value="AGR25">[25] Corn grain total nitrogen at R6</input>
+<br /><input type="checkbox" name="data" value="AGR26">[26] Corn cob total nitrogen at R6</input>
+<br /><input type="checkbox" name="data" value="AGR27">[27] Soybean grain total carbon at R8</input>
+<br /><input type="checkbox" name="data" value="AGR28">[28] Soybean grain total nitrogen at R8</input>
+<br /><input type="checkbox" name="data" value="AGR29">[29] Wheat grain total carbon at maturity</input>
+<br /><input type="checkbox" name="data" value="AGR30">[30] Wheat grain total nitrogen at maturity</input>
+<br /><input type="checkbox" name="data" value="AGR31">[31] Corn stalk nitrate samples</input>
+<br /><input type="checkbox" name="data" value="SOIL1">[1] Dry bulk density (BD)</input>
+<br /><input type="checkbox" name="data" value="SOIL2">[2] Water retention (pF curve)</input>
+<br /><input type="checkbox" name="data" value="SOIL3">[3] Infiltration rate</input>
+<br /><input type="checkbox" name="data" value="SOIL4">[4] Soil moisture (via bulk density samples)</input>
+<br /><input type="checkbox" name="data" value="SOIL5">[5] Soil moisture (Decagon moisture sensor)</input>
+<br /><input type="checkbox" name="data" value="SOIL6">[6] Soil texture</input>
+<br /><input type="checkbox" name="data" value="SOIL7">[7] Aggregate stability</input>
+<br /><input type="checkbox" name="data" value="SOIL8">[8] Penetration resistance</input>
+<br /><input type="checkbox" name="data" value="SOIL9">[9] Soil description to soil profile or rooting zone depth</input>
+<br /><input type="checkbox" name="data" value="SOIL10">[10] Earthworm (EW) activity</input>
+<br /><input type="checkbox" name="data" value="SOIL11">[11] pH</input>
+<br /><input type="checkbox" name="data" value="SOIL12">[12] Cation Exchange Capacity (CEC)</input>
+<br /><input type="checkbox" name="data" value="SOIL13">[13] Soil Organic Carbon (SOC)</input>
+<br /><input type="checkbox" name="data" value="SOIL14">[14] Total N</input>
+<br /><input type="checkbox" name="data" value="SOIL15">[15] Soil Nitrate (Complete Sampling - Sample more than once/year)</input>
+<br /><input type="checkbox" name="data" value="SOIL16">[16] Soil Nitrate (Partial Sampling - Sample once/year)</input>
+<br /><input type="checkbox" name="data" value="SOIL17">[17] Fractionation of soil organic matter</input>
+<br /><input type="checkbox" name="data" value="SOIL18">[18] Particulate organic matter (POM)</input>
+<br /><input type="checkbox" name="data" value="SOIL19">[19] Standard soil fertility routine analysis</input>
+<br /><input type="checkbox" name="data" value="SOIL20">[20] Salinity</input>
+<br /><input type="checkbox" name="data" value="SOIL22">[22] Soil Ammonium (Optional)</input>
 </td></tr>
 
 
@@ -121,8 +175,51 @@
 <tr><td width="25%">Sites to include:
 <br />(check all that apply)</td>
 
-<td><input type="radio" name="sites" value="all">Give me all sites!</input>
-<br /><input type="radio" name="sites" value="NWREC">NWREC (IL)</input>
+<td><input type="checkbox" name="sites" value="all">Give me all sites!</input>
+<br /><input type="checkbox" name="sites" value="NWREC">NWREC (IL)</input>
+<br /><input type="checkbox" name="sites" value="ORR">ORR (IL)</input>
+<br /><input type="checkbox" name="sites" value="DPAC">DPAC (IN)</input>
+<br /><input type="checkbox" name="sites" value="SEPAC">SEPAC (IN)</input>
+<br /><input type="checkbox" name="sites" value="SEPAC">SEPAC (IN)</input>
+<br /><input type="checkbox" name="sites" value="ISUAG">ISUAG (IA)</input>
+<br /><input type="checkbox" name="sites" value="GILMORE">GILMORE (IA)</input>
+<br /><input type="checkbox" name="sites" value="SERF">SERF (IA)</input>
+<br /><input type="checkbox" name="sites" value="MASON">MASON (MI)</input>
+<br /><input type="checkbox" name="sites" value="KELLOGG">KELLOGG (MI)</input>
+<br /><input type="checkbox" name="sites" value="SWROC.B">SWROC.B (MN)</input>
+<br /><input type="checkbox" name="sites" value="SWROC.G">SWROC.G (MN)</input>
+<br /><input type="checkbox" name="sites" value="SWROC.P">SWROC.P (MN)</input>
+<br /><input type="checkbox" name="sites" value="VICMS">VICMS (MN)</input>
+<br /><input type="checkbox" name="sites" value="BRADFORD.A">BRADFORD.A (MO)</input>
+<br /><input type="checkbox" name="sites" value="BRADFORD.B1">BRADFORD.B1 (MO)</input>
+<br /><input type="checkbox" name="sites" value="BRADFORD.B2">BRADFORD.B2 (MO)</input>
+<br /><input type="checkbox" name="sites" value="BRADFORD.C">BRADFORD.C (MO)</input>
+<br /><input type="checkbox" name="sites" value="FREEMAN">FREEMAN (MO)</input>
+<br /><input type="checkbox" name="sites" value="STJOHNS">STJOHNS (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS109">NAEW.WS109 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS111">NAEW.WS111 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS113">NAEW.WS113 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS115">NAEW.WS115 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS118">NAEW.WS118 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS123">NAEW.WS123 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.WS127">NAEW.WS127 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.Y102">NAEW.Y102 (OH)</input>
+<br /><input type="checkbox" name="sites" value="NAEW.Y103">NAEW.Y103 (OH)</input>
+<br /><input type="checkbox" name="sites" value="WATERMAN">WATERMAN (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.MIAMI">ONFARM.MIAMI (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.SENECA1">ONFARM.SENECA1 (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.SENECA2">ONFARM.SENECA2 (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.PREBLE">ONFARM.PREBLE (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.AUGLAIZE">ONFARM.AUGLAIZE (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.LOGAN1">ONFARM.LOGAN1 (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.LOGAN2">ONFARM.LOGAN2 (OH)</input>
+<br /><input type="checkbox" name="sites" value="ONFARM.FRANKLIN">ONFARM.FRANKLIN (OH)</input>
+<br /><input type="checkbox" name="sites" value="WOOSTER.LTR">WOOSTER.LTR (OH)</input>
+<br /><input type="checkbox" name="sites" value="WOOSTER.COV">WOOSTER.COV (OH)</input>
+<br /><input type="checkbox" name="sites" value="HOYTVILLE.LTR">HOYTVILLE.LTR (OH)</input>
+<br /><input type="checkbox" name="sites" value="ARL">ARL (WI)</input>
+<br /><input type="checkbox" name="sites" value="LAN">LAN (WI)</input>
+<br /><input type="checkbox" name="sites" value="MAR">MAR (WI)</input>
 </td></tr>
 
 
