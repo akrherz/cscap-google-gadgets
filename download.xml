@@ -243,7 +243,7 @@ do you want "missing" data reflected?
 
 <p>How do you want the data exported?
 <br /><select name="format">
-<option value="Excel">Excel (.xls)</option>
+<option value="excel">Excel (.xls)</option>
 <option value="csv">Comma Delimited</option>
 <option value="tab">Tab Delimited</option>
 </select>
