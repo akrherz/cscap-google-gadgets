@@ -13,27 +13,8 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css">
    <script src="https://www.google.com/jsapi?key=ABQIAAAArXt77YptylBNPFEy0AgJxBQV4szfgV8zGZZkur1B-B3W8b5AThTSlomZliOt8JQHJGH1m63sgDu1rg" type="text/javascript"></script>
 
-<!-- Initially displayed and then hidden once we are running -->
-<div id="loading">
- <p><strong>Download Data form is loading...</strong>
-</div>
-
-<!-- Displayed if this gadget needs oauth2 approval -->
-<div id="approval" style="display: none">
- <a id="personalize"
-              onclick="javascript:showOneSection('waiting'); return true"
-                      target="approve">Click to authorize this gadget</a>
-</div>
-
-<!-- Displayed once the approval process begins... -->
-<div id="waiting" style="display: none">
-      Please click
-            <a href="#" onclick="javascript:bootstrap()">I've approved access</a>
-                  once you've approved access to your data.
-</div>
-
 <!-- Our main 'window' -->
-<div id="main" style="display: none">
+<div id="main">
 
 <form method="GET" action="https://mesonet.agron.iastate.edu/cscap/dl.py">
 <input type="hidden" name="hash" value="usethesource"  />
@@ -124,12 +105,12 @@ do you want "missing" data reflected?
 </div><!-- End of main -->
 <script type="text/javascript">
 
+
 /* called after gadgets are ready, now we need more apis */
 function myinit(){
   google.load("gdata", "2.x");
   google.load("jquery", "1.7.1");
   google.load("jqueryui", "1.8.16");
-  google.setOnLoadCallback(bootstrap);
 }
 
 /* Wait until google gadgets is fired up */
