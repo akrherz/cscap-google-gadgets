@@ -118,6 +118,7 @@ any changes you make, click the CLEAR FORM button at the bottom.</div>
   <option value="manure_manure">Manure Application</option>
   <option value="fertilizer_synthetic">Synthetic Fertilizer</option>
   <option disabled="disabled" value="invalid" class="optheader">... Sampling Date ...</option>
+  <option value="sample_canopy">Canopy N-Sensing</option>  
   <option value="sample_soilnitrate">Soil Nitrate</option>  
 </select>
 
@@ -408,6 +409,10 @@ Use this side if you know the quantity applied per nutrient. Do not
 
 </div>
 <div id="sample_options" style="display: none;">
+<br /><input type="text" id="sample_growth_stage" size="5" value="-">
+ <label for="sample_growth_stage">Sample Growth Stage</label>
+<br /><input type="text" id="sample_height" size="5" value="-">
+ <label for="sample_height">Canopy Height (meters)</label>
 </div>
 
 <div id="plant_options" style="display: none;">
@@ -1612,6 +1617,8 @@ document.getElementById("soiladmend_neutral_index").value = entry.gsx$neutralind
     dei("fertilizer_stabilizer_used").value = entry.gsx$stabilizerused.$t;
     dei("fertilizer_stabilizer_name").value = entry.gsx$stabilizername.$t;
     dei("fertilizer_stabilizer").value = entry.gsx$stabilizer.$t;
+    dei("sample_growth_stage").value = entry.gsx$growthstage.$t;
+    dei("sample_height").value = entry.gsx$canopyheight.$t;
     var fertilizer_depth = parseFloat(entry.gsx$depth.$t);
     if (fertilizer_depth > 0){
       dei("fertilizer_injection_depth").value = fertilizer_depth / 2.54;
@@ -2237,6 +2244,8 @@ entry['gsx$cropyear'] = {$t:myYear};
       entry['gsx$biomassdate1'] = {$t: $.datepicker.formatDate("yy/mm/dd", $("#tdatepicker1").datepicker("getDate"))};
       entry['gsx$biomassdate2'] = {$t: $.datepicker.formatDate("yy/mm/dd", $("#tdatepicker2").datepicker("getDate"))};  
       entry['gsx$updated'] = {$t: new Date()};
+      entry['gsx$growthstage'] = {$t:document.getElementById("sample_growth_stage").value}; 
+      entry['gsx$canopyheight'] = {$t:document.getElementById("sample_height").value}; 
       function good(entry){
         alert('Entry was saved!');
         operationsFeed = null;
