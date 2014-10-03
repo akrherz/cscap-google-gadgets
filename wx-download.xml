@@ -38,7 +38,7 @@
 <form method="GET" action="https://mesonet.agron.iastate.edu/cgi-bin/request/coop.py">
 <input type="hidden" name="network" value="IACLIMATE" id="network" />
 <p><strong>Select Research Site(s):</strong>
-<br /><select id="station" name="station[]" size="5">
+<br /><select id="station" name="station[]" size="5" multiple>
  <option value="invalid">Select From List</option>
 </select>
 
