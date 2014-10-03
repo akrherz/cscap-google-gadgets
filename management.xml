@@ -420,7 +420,7 @@ Use this side if you know the quantity applied per nutrient. Do not
 <tr><td><strong>Hybrid or Variety Planted:</strong></td>
 <td><input type="text" id="plant_hybrid"></td><td>(ex: Pioneer 1234)</td></tr>
 
-<tr><td><strong>Maturity of hybrid or variety:</strong></td>
+<tr><td><strong>Maturity of Hybrid or Variety:</strong></td>
 <td><input type="text" id="plant_maturity"></td>
 <td>For corn, the relative maturity (85-125).  For soybean, a value between 1.0 and 4.0</td></tr>
 
