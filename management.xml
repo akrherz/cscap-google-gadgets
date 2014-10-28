@@ -530,7 +530,7 @@ Date 2: <input type="text" id="tdatepicker2">
  <option value="burning">Burning</option>
  <option value="mechanical">Mechanical</option>
  <option value="mechanical_cobs">Mechanical - Cobs Only</option>
- <option value=mowed">Mowed</option>
+ <option value="mowed">Mowed</option>
  <option value="n/a">Not Applicable</option>
  <option value="other">Other</option>
 </select>
