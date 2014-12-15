@@ -416,6 +416,16 @@ Use this side if you know the quantity applied per nutrient. Do not
 </div>
 
 <div id="plant_options" style="display: none;">
+<div id="plant_rye_options" style="display: none;">
+<p><strong>How was the rye seeded?</strong>
+<br /><select id="plantryemethod">
+ <option value="broadcast">Broadcast</option>
+ <option value="drilled">Drilled</option>
+ <option value="other">Other (specify in comments)</option>
+</select>
+</p>
+</div><!-- end of plant_rye_options -->
+
 <table>
 <tr><td><strong>Hybrid or Variety Planted:</strong></td>
 <td><input type="text" id="plant_hybrid"></td><td>(ex: Pioneer 1234)</td></tr>
@@ -1473,7 +1483,7 @@ function editIpmRow(myrowid){
     var entry = getIpmEntryByRowId(myrowid);
     var op = entry['gsx$operation'].$t;
     setIpmOperation(op);
-    document.getElementById("ipm_operation").value = op;
+    dei("ipm_operation").value = op;
     $("#ipm_datepicker").datepicker("setDate", entry.gsx$date.$t);
     
     document.getElementById(op+"_crop").value = entry['gsx$crop'].$t;
@@ -1594,7 +1604,8 @@ function editOperationRow(myrowid){
     /* Load up form based on this entry! */
     document.getElementById("comments").value = entry.gsx$comments.$t;
     document.getElementById("rowid").value = myrowid;
-    document.getElementById("operation").value = entry.gsx$operation.$t;
+    dei("operation").value = entry.gsx$operation.$t;
+    dei("plant_rye_options").value = entry.gsx$plantryemethod.$t;
     document.getElementById("plant_hybrid").value = entry.gsx$planthybrid.$t;
     document.getElementById("plant_maturity").value = entry.gsx$plantmaturity.$t;
 
@@ -1902,14 +1913,16 @@ function showOneIpmOperation(toshow) {
 
 function showOneOperation(toshow, subtype) {
     var sections = [ 'plant', 'harvest', 'tillage', 
-        'fertilizer', 'soiladmend', 'manure','termination', 'termination2', 'sample'];
+        'fertilizer', 'soiladmend', 'manure','termination', 
+        'termination2', 'sample'];
     var sectionLabels = [ 'Planting Date:', 'Harvest Date:', 'Tillage Date:', 
-        'Fertilizer Date:', 'Lime Application Date:', 'Manure Application Date:', 'Termination Date', '', 'Sampling Date'];
+        'Fertilizer Date:', 'Lime Application Date:', 
+        'Manure Application Date:', 'Termination Date', '', 'Sampling Date'];
     for (var i=0; i < sections.length; ++i) {
         var s = sections[i];
         var el = document.getElementById(s+"_options");
         if (s === toshow) {
-            document.getElementById("operation_label").innerHTML = sectionLabels[i];
+            dei("operation_label").innerHTML = sectionLabels[i];
             
             el.style.display = "block";
         } else if (s === 'termination2' && (toshow === 'harvest' || toshow === 'termination')){
@@ -1917,6 +1930,12 @@ function showOneOperation(toshow, subtype) {
         } else {
             el.style.display = "none";
         }
+    }
+    // Hack for plant_rye_options
+    if (toshow == 'plant' && subtype.substring(0,3) == 'rye'){
+        dei("plant_rye_options).style.display = 'block';
+    } else {
+        dei("plant_rye_options).style.display = 'None';
     }
 }
 
@@ -2123,6 +2142,7 @@ function saveOperationData(){
           entry['gsx$plantrate'] = {$t: prate};
 
           entry['gsx$planthybrid'] = {$t: document.getElementById("plant_hybrid").value};
+          entry['gsx$plantryemethod'] = {$t: dei("plantryemethod").value};
           entry['gsx$plantmaturity'] = {$t: document.getElementById("plant_maturity").value};
           
       }
