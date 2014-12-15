@@ -2142,7 +2142,9 @@ function saveOperationData(){
           entry['gsx$plantrate'] = {$t: prate};
 
           entry['gsx$planthybrid'] = {$t: document.getElementById("plant_hybrid").value};
-          entry['gsx$plantryemethod'] = {$t: dei("plantryemethod").value};
+          if (optokens[1].substring(0,3) == 'rye'){
+              entry['gsx$plantryemethod'] = {$t: dei("plantryemethod").value};
+          }
           entry['gsx$plantmaturity'] = {$t: document.getElementById("plant_maturity").value};
           
       }
