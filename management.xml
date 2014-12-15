@@ -1933,9 +1933,9 @@ function showOneOperation(toshow, subtype) {
     }
     // Hack for plant_rye_options
     if (toshow == 'plant' && subtype.substring(0,3) == 'rye'){
-        dei("plant_rye_options).style.display = 'block';
+        dei("plant_rye_options").style.display = 'block';
     } else {
-        dei("plant_rye_options).style.display = 'None';
+        dei("plant_rye_options").style.display = 'none';
     }
 }
 
