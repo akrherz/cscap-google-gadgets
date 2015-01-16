@@ -87,7 +87,7 @@ any changes you make, click the CLEAR FORM button at the bottom.</div>
   <option disabled="disabled" value="invalid" class="optheader">... Planting Operations ...</option>
   <option value="plant_corn">Corn Planting</option>
   <option value="plant_soy">Soybean Planting</option>
-  <option value="plant_rye">Rye Planting into Corn and/or Soy Residue</option>
+  <option value="plant_rye">Rye Planting into Corn and Soy Residue</option>
   <option value="plant_rye-corn-res">Rye Planting into Corn Residue</option>
   <option value="plant_rye-soy-res">Rye Planting into Soy Residue</option>
   <option value="plant_wheat">Wheat Planting</option>
