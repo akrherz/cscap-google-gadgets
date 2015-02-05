@@ -119,6 +119,7 @@ any changes you make, click the CLEAR FORM button at the bottom.</div>
   <option value="fertilizer_synthetic">Synthetic Fertilizer</option>
   <option disabled="disabled" value="invalid" class="optheader">... Sampling Date ...</option>
   <option value="sample_canopy">Canopy N-Sensing</option>  
+  <option value="sample_covercrop">Cover Crop Sampling</option>  
   <option value="sample_soilnitrate">Soil Nitrate</option>  
 </select>
 
@@ -409,6 +410,10 @@ Use this side if you know the quantity applied per nutrient. Do not
 
 </div>
 <div id="sample_options" style="display: none;">
+<p>Please include additional metadata about the sampling event where
+appropriate.  You can enter free-form comments to further describe the
+sampling that was done.  The actual data for these sampled are stored
+elsewhere.</p>
 <br /><input type="text" id="sample_growth_stage" size="5" value="-">
  <label for="sample_growth_stage">Sample Growth Stage</label>
 <br /><input type="text" id="sample_height" size="5" value="-">
