@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
   <ModulePrefs title="CSCAP Site Management Form" >
-  <OAuth>
-    <Service name="google">
-      <Access url="https://www.google.com/accounts/OAuthGetAccessToken" method="GET" /> 
-      <Request url="https://www.google.com/accounts/OAuthGetRequestToken?scope=https://spreadsheets.google.com/feeds/" method="GET" /> 
-      <Authorization url="https://www.google.com/accounts/OAuthAuthorizeToken" /> 
+  <OAuth2>
+    <Service name="googleAPI" scope="https://spreadsheets.google.com/feeds">
     </Service>
-  </OAuth>
+  </OAuth2>
     <Require feature="dynamic-height"/>  
     <Require feature="auth-refresh"/>
+    <Require feature="oauthpopup"/>
   </ModulePrefs>
   <Content type="html">
     <![CDATA[
@@ -1164,6 +1162,14 @@ with the crop year selected above.
 </div>
 </form>
 </div>
+
+   <div id="error" style="display: none;background-color:yellow;font-size:xx-small;" title="An error occured processing your request">
+       <div id="error_code"><u>code:</u></div>
+       <div id="error_uri"><u>uri:</u></div>
+       <div id="error_description"><u>description:</u></div>
+       <div id="error_explanation"><u>explanation:</u></div>
+       <div id="error_trace"><u>trace:</u></div>
+    </div>
 
 <script type="text/javascript">
 /* TODO
@@ -2369,26 +2375,42 @@ function bootstrap(){
     $("#manure_injection_depth_units").buttonset();
     $("#fertilizer_injection_depth_units").buttonset();
     url = 'https://spreadsheets.google.com/feeds/list/'+site_sskey+'/1/private/full';
-    var callback = function(response) {
-          if (response.oauthApprovalUrl) {
- var personalize = dei('personalize');
- personalize.href = response.oauthApprovalUrl;
- showOneSection('approval');
-          } else if (response.feed) {
- showOneSection('main');
- SITES_FEED = response.feed;
- showResults(response);
-          } else {
- var main = dei('main');
- var err = document.createTextNode('2. Something went wrong');
- main.appendChild(err);
- showOneSection('main');
- }
-    };
-   /* Initial constructor of service */
-   service = new google.gdata.client.GoogleService('testapp');
-   service.useOAuth('google');
-   service.getFeed(url, callback, getFeed_eb);
+
+    var params = {};
+    params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.TEXT;
+    params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.OAUTH2;
+    params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+    params[gadgets.io.RequestParameters.OAUTH_SERVICE_NAME] = "googleAPI";
+    params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = "0";
+
+   gadgets.io.makeRequest(url, function (response) {
+       if (response.oauthApprovalUrl) {
+            var onOpen = function() {
+              showOneSection('aproval');
+            };
+            var onClose = function() {
+              fetchData();
+            };
+            var popup = new gadgets.oauth.Popup(response.oauthApprovalUrl,
+                null, onOpen, onClose);
+            dei('personalize').onclick = popup.createOpenerOnClick();
+            dei('approvaldone').onclick = popup.createApprovedOnClick();
+            showOneSection('approval');
+       } else if (response.data) {
+            SITES_FEED = response.data;
+            showResults(response);
+            dei('main').appendChild(document.createTextNode(response.data));
+            showOneSection('main');
+       } else {
+             dei('error_code').appendChild(document.createTextNode(response.oauthError));
+             dei('error_uri').appendChild(document.createTextNode(response.oauthErrorUri));
+             dei('error_description').appendChild(document.createTextNode(response.oauthErrorText));
+             dei('error_explanation').appendChild(document.createTextNode(response.oauthErrorExplanation));
+             dei('error_trace').appendChild(document.createTextNode(response.oauthErrorTrace));
+            showOneSection('error');
+       }
+    }, params);
+
   }
 /* called after gadgets are ready, now we need more apis */
 function myinit(){
