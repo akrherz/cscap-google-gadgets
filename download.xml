@@ -230,6 +230,7 @@
 do you want "DNC" represented?
 <br /><select name="dnc">
 <option value="dnc">DNC</option>
+<option value="M">M</option>
 </select>
 
 <p>Plots with data that is "missing" (caused by a lost lab analysis, gopher
