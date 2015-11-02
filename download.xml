@@ -186,9 +186,9 @@
 <br /><input type="checkbox" name="sites" value="SERF">SERF (IA)</input>
 <br /><input type="checkbox" name="sites" value="MASON">MASON (MI)</input>
 <br /><input type="checkbox" name="sites" value="KELLOGG">KELLOGG (MI)</input>
-<br /><input type="checkbox" name="sites" value="SWROC.B">SWROC.B (MN)</input>
-<br /><input type="checkbox" name="sites" value="SWROC.G">SWROC.G (MN)</input>
-<br /><input type="checkbox" name="sites" value="SWROC.P">SWROC.P (MN)</input>
+<br /><input type="checkbox" name="sites" value="HICKS.B">HICKS.B (MN)</input>
+<br /><input type="checkbox" name="sites" value="HICKS.G">HICKS.G (MN)</input>
+<br /><input type="checkbox" name="sites" value="HICKS.P">HICKS.P (MN)</input>
 <br /><input type="checkbox" name="sites" value="VICMS">VICMS (MN)</input>
 <br /><input type="checkbox" name="sites" value="BRADFORD.A">BRADFORD.A (MO)</input>
 <br /><input type="checkbox" name="sites" value="BRADFORD.B1">BRADFORD.B1 (MO)</input>
