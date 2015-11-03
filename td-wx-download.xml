@@ -14,7 +14,7 @@
    <script src="https://www.google.com/jsapi?key=ABQIAAAArXt77YptylBNPFEy0AgJxBQV4szfgV8zGZZkur1B-B3W8b5AThTSlomZliOt8JQHJGH1m63sgDu1rg" type="text/javascript"></script>
 
 <!-- Initially displayed and then hidden once we are running -->
-<div id="loading">
+<div id="loading" style="display: none;">
  <p><strong>Weather Data form is loading...</strong>
 </div>
 
@@ -33,13 +33,38 @@
 </div>
 
 <!-- Our main 'window' -->
-<div id="main" style="display: none">
+<div id="main" style="display: block">
 
 <form method="GET" action="https://mesonet.agron.iastate.edu/cgi-bin/request/coop.py">
 <input type="hidden" name="network" value="IACLIMATE" id="network" />
 <p><strong>Select Research Site(s):</strong>
 <br /><select id="station" name="station[]" size="5" multiple>
- <option value="invalid">Select From List</option>
+ <option value="IN9430">ACRE - Bowling</option>
+ <option value="NC0375">BATH_NEW - Youssef</option>
+ <option value="NC0375">BATH_OLD - Youssef</option>
+ <option value="IA0200">BEAR - Jaynes</option>
+ <option value="MN0018">CLAY_C - Jia</option>
+ <option value="MN0018">CLAY_M - Jia</option>
+ <option value="MN0018">CLAY_U - Jia</option>
+ <option value="OH2098">DEFI_R - Allred</option>
+ <option value="IN2825">DPAC - Kladivko</option>
+ <option value="ND5754">FAIRM - Jia</option>
+ <option value="OH8822">FULTON - Allred</option>
+ <option value="MN8323">HICKS_B - Strock</option>
+ <option value="MN8323">HICKS_P - Strock</option>
+ <option value="MN8323">HICKS_R - Strock</option>
+ <option value="IA8806">MAASS - Jaynes</option>
+ <option value="MO8051">MUDS1 - Nelson</option>
+ <option value="MO2482">MUDS2 - Nelson</option>
+ <option value="MO2482">MUDS3_NEW - Nelson</option>
+ <option value="MO2482">MUDS3_OLD - Nelson</option>
+ <option value="MO2482">MUDS4 - Nelson</option>
+ <option value="IA8688">SERF_IA - Helmers</option>
+ <option value="SD1579">SERF_SD - Ahiablame</option>
+ <option value="OH4551">STJOHNS - Fausey</option>
+ <option value="IA0200">STORY - Jaynes</option>
+ <option value="MN8520">SWROC - Strock</option>
+ <option value="OH8609">VANWERT - Allred</option>
 </select>
 
 <p><strong>Select Time Period:</strong>
@@ -134,69 +159,6 @@ function setSite(site){
   document.getElementById("network").value = site.substring(0,2) + "CLIMATE";
 
 } /* End of setSite() */
-
-function showOneSection(toshow) {
-    var sections = [ 'loading', 'main', 'approval', 'waiting' ];
-    for (var i=0; i < sections.length; ++i) {
-        var s = sections[i];
-        var el = document.getElementById(s);
-        if (s === toshow) {
-            el.style.display = "block";
-        } else {
-            el.style.display = "none";
-        }
-    }
-}
-
-function loadSites(feed){
-    /* Load up the sites and the associated weather station */
-    var sel = document.getElementById('station');
-    var list = feed.entry;
-    for(var i=0, n=list.length; i < n; i++) {
-        var entry = list[i];
-        var iem = entry.gsx$iemclimatesite.$t;
-        var tokens = iem.split(/ /);
-        if (tokens.length < 2 || tokens[0].length != 6){ continue; }
-        var opt = document.createElement("option");
-        opt.text = entry.gsx$uniqueid.$t +" ["+ entry.gsx$citynearest.$t +", "+ entry.gsx$state.$t +"] -- "+ entry.gsx$iemclimatesite.$t;
-        opt.value = tokens[0];
-        sel.options.add( opt ); 
-    } /* End of for loop */
-} /* End of loadSites() */
-
-/* Called once google has all our apis loaded! */
-function bootstrap(){
-   url = 'https://spreadsheets.google.com/feeds/list/'+ sskey +'/1/private/full';
-   var callback = function(response) {
-         if (response.oauthApprovalUrl) {
-             var personalize = document.getElementById('personalize');
-             personalize.href = response.oauthApprovalUrl;
-             showOneSection('approval');
-         } else if (response.feed) {
-             showOneSection('main');
-             loadSites(response.feed);
-         } else {
-             var main = document.getElementById('main');
-             var err = document.createTextNode('Something went wrong');
-             main.appendChild(err);
-             showOneSection('main');
-         }
-    };
-    service = new google.gdata.client.GoogleService('testapp');
-    service.useOAuth('google');
-    service.getFeed(url, callback, callback);
-} /* End of bootstrap() */
-
-/* called after gadgets are ready, now we need more apis */
-function myinit(){
-  google.load("gdata", "2.x");
-  google.load("jquery", "1.7.1");
-  google.load("jqueryui", "1.8.16");
-  google.setOnLoadCallback(bootstrap);
-}
-
-/* Wait until google gadgets is fired up */
-gadgets.util.registerOnLoadHandler(myinit);
 
 </script>
 ]]></Content>
