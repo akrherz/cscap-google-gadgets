@@ -39,32 +39,32 @@
 <input type="hidden" name="network" value="IACLIMATE" id="network" />
 <p><strong>Select Research Site(s):</strong>
 <br /><select id="station" name="station[]" size="5" multiple>
- <option value="IN9430">ACRE - Bowling</option>
- <option value="NC0375">BATH_NEW - Youssef</option>
- <option value="NC0375">BATH_OLD - Youssef</option>
- <option value="IA0200">BEAR - Jaynes</option>
- <option value="MN0018">CLAY_C - Jia</option>
- <option value="MN0018">CLAY_M - Jia</option>
- <option value="MN0018">CLAY_U - Jia</option>
- <option value="OH2098">DEFI_R - Allred</option>
- <option value="IN2825">DPAC - Kladivko</option>
- <option value="ND5754">FAIRM - Jia</option>
- <option value="OH8822">FULTON - Allred</option>
- <option value="MN8323">HICKS_B - Strock</option>
- <option value="MN8323">HICKS_P - Strock</option>
- <option value="MN8323">HICKS_R - Strock</option>
- <option value="IA8806">MAASS - Jaynes</option>
- <option value="MO8051">MUDS1 - Nelson</option>
- <option value="MO2482">MUDS2 - Nelson</option>
- <option value="MO2482">MUDS3_NEW - Nelson</option>
- <option value="MO2482">MUDS3_OLD - Nelson</option>
- <option value="MO2482">MUDS4 - Nelson</option>
- <option value="IA8688">SERF_IA - Helmers</option>
- <option value="SD1579">SERF_SD - Ahiablame</option>
- <option value="OH4551">STJOHNS - Fausey</option>
- <option value="IA0200">STORY - Jaynes</option>
- <option value="MN8520">SWROC - Strock</option>
- <option value="OH8609">VANWERT - Allred</option>
+ <option value="IN9430">ACRE - Agronomy Center for Research and Education (ACRE) [Bowling]</option>
+<!-- <option value="NC0375">BATH_NEW - Bath Demonstration Site  [Youssef]</option>
+ <option value="NC0375">BATH_OLD - Bath Demonstration Site  [Youssef]</option> -->
+ <option value="MN0018">CLAY_U - Clay [Jia]</option>
+ <option value="MN0018">CLAY_M - Clay [Jia]</option>
+ <option value="MN0018">CLAY_C - Clay [Jia]</option>
+ <option value="IN2825">DPAC - Davis Purdue Agricultural Center (DPAC) - West [Kladivko]</option>
+ <option value="ND5754">FAIRM - Fairmount  [Jia]</option>
+ <option value="MO2482">MUDS2 - Greenley Memorial Research Center [Nelson]</option>
+ <option value="MO2482">MUDS3_NEW - Greenley Memorial Research Center [Nelson]</option>
+ <option value="MO2482">MUDS3_OLD - Greenley Memorial Research Center [Nelson]</option>
+ <option value="MO8051">MUDS1 - Greenley Memorial Research Center - The Ross Jones Farm [Nelson]</option>
+ <option value="MN8323">HICKS_B - Hicks Farm [Strock]</option>
+ <option value="MN8323">HICKS_P - Hicks Farm [Strock]</option>
+ <option value="MN8323">HICKS_R - Hicks Farm [Strock]</option>
+ <option value="MO2482">MUDS4 - Private Farm at Bee Ridge Township  [Nelson]</option>
+ <option value="IA0200">STORY - Private Farm at Story City [Jaynes]</option>
+ <option value="SD1579">SERF_SD - SDSU Research Farm [Ahiablame]</option>
+ <option value="IA0200">BEAR - Site 1  (Private Farm at Bear Creek) [Jaynes]</option>
+ <option value="IA8806">MAASS - Site 2  (Private Farm at Hamilton County) [Jaynes]</option>
+ <option value="IA8688">SERF_IA - Southeast Research and Demonstration Farm (SERF) [Helmers]</option>
+ <option value="MN8520">SWROC - Southwest Research and Outreach Center (SWROC) [Strock]</option>
+ <option value="OH4551">STJOHNS - St.Johns [Fausey]</option>
+ <option value="OH2098">DEFI_R - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
+ <option value="OH8822">FULTON - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
+ <option value="OH8609">VANWERT - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
 </select>
 
 <p><strong>Select Time Period:</strong>
