@@ -229,7 +229,7 @@
 <p>Some sites have data that were not collected (referred to as "DNC"). How 
 do you want "DNC" represented?
 <br /><select name="dnc">
-<option value="dnc">DNC</option>
+<option value="DNC">DNC</option>
 <option value="M">M</option>
 </select>
 
