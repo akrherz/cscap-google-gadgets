@@ -148,26 +148,36 @@
 <br /><input type="checkbox" name="data" value="AGR30">[30] Wheat grain total nitrogen at maturity</input>
 <br /><input type="checkbox" name="data" value="AGR31">[31] Corn stalk nitrate samples</input>
 <br /><input type="checkbox" name="data" value="SOIL1">[1] Dry bulk density (BD)</input>
-<br /><input type="checkbox" name="data" value="SOIL2">[2] Water retention (pF curve)</input>
+<br /><input type="checkbox" name="data" value="SOIL2">[2] Water retention at 0 bar</input>
 <br /><input type="checkbox" name="data" value="SOIL3">[3] Infiltration rate</input>
-<br /><input type="checkbox" name="data" value="SOIL4">[4] Soil moisture (via bulk density samples)</input>
-<br /><input type="checkbox" name="data" value="SOIL5">[5] Soil moisture (Decagon moisture sensor)</input>
-<br /><input type="checkbox" name="data" value="SOIL6">[6] Soil texture</input>
+<br /><input type="checkbox" name="data" value="SOIL6">[6] Soil texture </input>
 <br /><input type="checkbox" name="data" value="SOIL7">[7] Aggregate stability</input>
 <br /><input type="checkbox" name="data" value="SOIL8">[8] Penetration resistance</input>
-<br /><input type="checkbox" name="data" value="SOIL9">[9] Soil description to soil profile or rooting zone depth</input>
 <br /><input type="checkbox" name="data" value="SOIL10">[10] Earthworm (EW) activity</input>
-<br /><input type="checkbox" name="data" value="SOIL11">[11] pH</input>
-<br /><input type="checkbox" name="data" value="SOIL12">[12] Cation Exchange Capacity (CEC)</input>
+<br /><input type="checkbox" name="data" value="SOIL11">[11] pH </input>
+<br /><input type="checkbox" name="data" value="SOIL12">[12] Cation Exchange Capacity (CEC) </input>
 <br /><input type="checkbox" name="data" value="SOIL13">[13] Soil Organic Carbon (SOC)</input>
-<br /><input type="checkbox" name="data" value="SOIL14">[14] Total N</input>
-<br /><input type="checkbox" name="data" value="SOIL15">[15] Soil Nitrate (Complete Sampling - Sample more than once/year)</input>
-<br /><input type="checkbox" name="data" value="SOIL16">[16] Soil Nitrate (Partial Sampling - Sample once/year)</input>
-<br /><input type="checkbox" name="data" value="SOIL17">[17] Fractionation of soil organic matter</input>
+<br /><input type="checkbox" name="data" value="SOIL14">[14] Total N </input>
+<br /><input type="checkbox" name="data" value="SOIL15">[15] Soil Nitrate Sampling</input>
+<br /><input type="checkbox" name="data" value="SOIL17">[17] Fractionation of soil organic matter </input>
 <br /><input type="checkbox" name="data" value="SOIL18">[18] Particulate organic matter (POM)</input>
-<br /><input type="checkbox" name="data" value="SOIL19">[19] Standard soil fertility routine analysis</input>
+<br /><input type="checkbox" name="data" value="SOIL19">[19] Standard soil fertility routine analysis </input>
 <br /><input type="checkbox" name="data" value="SOIL20">[20] Salinity</input>
-<br /><input type="checkbox" name="data" value="SOIL22">[22] Soil Ammonium (Optional)</input>
+<br /><input type="checkbox" name="data" value="SOIL22">[22] Soil Ammonium Sampling (Optional)</input>
+<br /><input type="checkbox" name="data" value="SOIL26">[26] Percent Sand</input>
+<br /><input type="checkbox" name="data" value="SOIL27">[27] Percent Silt</input>
+<br /><input type="checkbox" name="data" value="SOIL28">[28] Percent Clay</input>
+<br /><input type="checkbox" name="data" value="SOIL41">[41] Water retention at 0.01 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL39">[39] Water retention at "freely drained" (near 0.003 bar)</input>
+<br /><input type="checkbox" name="data" value="SOIL29">[29] Water retention at 0.05 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL30">[30] Water retention at 0.10 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL31">[31] Water retention at 0.33 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL32">[32] Water retention at 15.0 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL33">[33] Water retention at 3.0 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL42">[42] Water retention at 3.9 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL34">[34] Water retention at 0.03 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL35">[35] Water retention at 1.0 bar</input>
+<br /><input type="checkbox" name="data" value="SOIL40">[40] Soil Total Aggregation %</input>
 </td></tr>
 
 
