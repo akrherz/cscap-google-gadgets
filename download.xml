@@ -153,13 +153,11 @@
 <br /><input type="checkbox" name="data" value="SOIL6">[6] Soil texture </input>
 <br /><input type="checkbox" name="data" value="SOIL7">[7] Aggregate stability</input>
 <br /><input type="checkbox" name="data" value="SOIL8">[8] Penetration resistance</input>
-<br /><input type="checkbox" name="data" value="SOIL10">[10] Earthworm (EW) activity</input>
 <br /><input type="checkbox" name="data" value="SOIL11">[11] pH </input>
 <br /><input type="checkbox" name="data" value="SOIL12">[12] Cation Exchange Capacity (CEC) </input>
 <br /><input type="checkbox" name="data" value="SOIL13">[13] Soil Organic Carbon (SOC)</input>
 <br /><input type="checkbox" name="data" value="SOIL14">[14] Total N </input>
 <br /><input type="checkbox" name="data" value="SOIL15">[15] Soil Nitrate Sampling</input>
-<br /><input type="checkbox" name="data" value="SOIL17">[17] Fractionation of soil organic matter </input>
 <br /><input type="checkbox" name="data" value="SOIL18">[18] Particulate organic matter (POM)</input>
 <br /><input type="checkbox" name="data" value="SOIL19">[19] Standard soil fertility routine analysis </input>
 <br /><input type="checkbox" name="data" value="SOIL20">[20] Salinity</input>
