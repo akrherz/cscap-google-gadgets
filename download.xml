@@ -16,7 +16,7 @@
 <!-- Our main 'window' -->
 <div id="main">
 
-<form method="GET" action="https://datateam.agron.iastate.edu/cscap/dl.py">
+<form method="GET" action="https://datateam.agron.iastate.edu/cscap_dl.py">
 <input type="hidden" name="hash" value="usethesourceluke"  />
 <input type="hidden" name="report" value="dl"  />
 
