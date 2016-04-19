@@ -188,7 +188,6 @@
 <br /><input type="checkbox" name="sites" value="ORR">ORR (IL)</input>
 <br /><input type="checkbox" name="sites" value="DPAC">DPAC (IN)</input>
 <br /><input type="checkbox" name="sites" value="SEPAC">SEPAC (IN)</input>
-<br /><input type="checkbox" name="sites" value="SEPAC">SEPAC (IN)</input>
 <br /><input type="checkbox" name="sites" value="ISUAG">ISUAG (IA)</input>
 <br /><input type="checkbox" name="sites" value="GILMORE">GILMORE (IA)</input>
 <br /><input type="checkbox" name="sites" value="SERF">SERF (IA)</input>
