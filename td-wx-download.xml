@@ -42,14 +42,20 @@
  <option value="IN9430">ACRE - Agronomy Center for Research and Education (ACRE) [Bowling]</option>
 <!-- <option value="NC0375">BATH_NEW - Bath Demonstration Site  [Youssef]</option>
  <option value="NC0375">BATH_A - Bath Demonstration Site  [Youssef]</option> -->
+ <option value="OH3915">AUGLA - Auglaize-E [Fausey]</option>
  <option value="IA0200">BEAR - Private Farm at Bear Creek [Jaynes]</option>
  <option value="MN0018">CLAY_C - Clay [Jia]</option>
  <option value="MN0018">CLAY_R - Clay [Jia]</option>
  <option value="MN0018">CLAY_U - Clay [Jia]</option>
+ <option value="OH1072">CRAWF - Crawford [Fausey]</option>
+ <option value="OH2098">DEFI_M - Defiance [Fausey]</option>
  <option value="OH2098">DEFI_R - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
  <option value="IN2825">DPAC - Davis Purdue Agricultural Center (DPAC) - West [Kladivko]</option>
  <option value="ND5754">FAIRM - Fairmount  [Jia]</option>
  <option value="OH8822">FULTON - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
+ <option value="OH4189">HARDIN - Hardin-N [Fausey]</option>
+ <option value="OH4189">HARDIN_NW - Hardin-NW [Fausey]</option>
+ <option value="OH3874">HENRY - Henry [Fausey]</option>
  <option value="MN8323">HICKS_B - Hicks Farm [Strock]</option>
  <option value="MN8323">HICKS_P - Hicks Farm [Strock]</option>
  <option value="MN8323">HICKS_S - Hicks Farm [Strock]</option>
@@ -64,6 +70,7 @@
  <option value="OH4551">STJOHNS - St.Johns [Fausey]</option>
  <option value="IA0200">STORY - Private Farm at Story City [Jaynes]</option>
  <option value="MN8520">SWROC - Southwest Research and Outreach Center (SWROC) [Strock]</option>
+ <option value="OH1404">UBWC - Upper Big Walnut Creek [King]</option>
  <option value="OH8609">VANWERT - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
 </select>
 
