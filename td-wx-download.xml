@@ -40,21 +40,26 @@
 <p><strong>Select Research Site(s):</strong>
 <br /><select id="station" name="station[]" size="5" multiple>
  <option value="IN9430">ACRE - Agronomy Center for Research and Education (ACRE) [Bowling]</option>
- <option value="NC0674">BATH_A - Bath Demonstration Site  [Youssef]</option>
  <option value="OH3915">AUGLA - Auglaize-E [Fausey]</option>
+ <option value="NC0674">BATH_A - Poole Farm Research and Demonstration Site [Youssef]</option>
+ <option value="NC0674">BATH_R - Poole Farm Research and Demonstration Site [Youssef]</option>
  <option value="IA0200">BEAR - Private Farm at Bear Creek [Jaynes]</option>
+ <option value="IA0200">BEAR2 - Private Farm at Bear Creek [Jaynes]</option>
+ <option value="IA8568">BENTON - Private Farm at Rock Creek [Jaynes]</option>
  <option value="MN0018">CLAY_C - Clay [Jia]</option>
  <option value="MN0018">CLAY_R - Clay [Jia]</option>
  <option value="MN0018">CLAY_U - Clay [Jia]</option>
  <option value="OH1072">CRAWF - Crawford [Fausey]</option>
  <option value="OH2098">DEFI_M - Defiance [Fausey]</option>
  <option value="OH2098">DEFI_R - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
+ <option value="IA3487">DIKE - Roadman Farm [Jaynes]</option>
  <option value="IN2825">DPAC - Davis Purdue Agricultural Center (DPAC) - West [Kladivko]</option>
  <option value="ND5754">FAIRM - Fairmount  [Jia]</option>
  <option value="OH8822">FULTON - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
  <option value="OH4189">HARDIN - Hardin-N [Fausey]</option>
  <option value="OH4189">HARDIN_NW - Hardin-NW [Fausey]</option>
  <option value="OH3874">HENRY - Henry [Fausey]</option>
+ <option value="IAC005">HICKORY - Private Farm at Hickory Grove [Jaynes]</option>
  <option value="MN8323">HICKS_B - Hicks Farm [Strock]</option>
  <option value="MN8323">HICKS_P - Hicks Farm [Strock]</option>
  <option value="MN8323">HICKS_S - Hicks Farm [Strock]</option>
@@ -66,12 +71,14 @@
  <option value="MO2482">MUDS4 - Private Farm at Bee Ridge Township  [Nelson]</option>
  <option value="IA8688">SERF_IA - Southeast Research and Demonstration Farm (SERF) [Helmers]</option>
  <option value="SD1579">SERF_SD - SDSU Southeast Research Farm [Ahiablame]</option>
+ <option value="IA0200">SHEARER - Shearer [Jaynes]</option>
  <option value="OH4551">STJOHNS - St.Johns [Fausey]</option>
  <option value="IA0200">STORY - Private Farm at Story City [Jaynes]</option>
  <option value="MN8520">SWROC - Southwest Research and Outreach Center (SWROC) [Strock]</option>
  <option value="NC6853">TIDE - Tidewater Research Station [Youssef]</option>
  <option value="OH1404">UBWC - Upper Big Walnut Creek [King]</option>
  <option value="OH8609">VANWERT - Wetland Reservoir Subirrigation Systems (WRSIS) Demonst [Allred]</option>
+ <option value="MN6405">WILKIN[1,2,3] - Red River Valley Drainage Water Management [Kjaersgaard]</option>
 </select>
 
 <p><strong>Select Time Period:</strong>
